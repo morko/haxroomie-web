@@ -26,7 +26,7 @@ let config = {
     /*
      * Port that the express server listens to for incoming HTTP connections.
      */
-    port: 3055,
+    port: process.env.PORT || 3055,
     /*
      * Absolute path to the sqlite storage file.
      */
