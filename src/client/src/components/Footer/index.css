@@ -1,0 +1,29 @@
+.App {
+  height: 100%;
+}
+
+.View {
+  min-height: 100%;
+  padding:10px;
+  padding-bottom:64px;   /* Height of the footer */
+}
+.Footer {
+  width:100%;
+  margin-top: -64px; /* Height of the footer */
+  height:64px;   /* Height of the footer */
+  background:rgb(30, 32, 32);
+  color: rgb(255, 255, 255);
+}
+
+.Footer-github {
+  text-align: right;
+}
+.Footer-copyright {
+  margin: auto;
+}
+.Footer-copyright a {
+  margin: auto;
+  padding-left: 1rem;
+  color: rgb(255, 255, 255);
+
+}

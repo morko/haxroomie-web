@@ -1,0 +1,49 @@
+{
+  "name": "haxroomie-web",
+  "version": "1.0.0-beta0",
+  "description": "Control haxroomie with a web client.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev:server": "nodemon -i ./src/client node index.js -w",
+    "dev:client": "cd src/client && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "cd src/client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morko/haxroomie-web.git"
+  },
+  "keywords": [
+    "haxroomie",
+    "haxball"
+  ],
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.3",
+    "chokidar": "^2.0.4",
+    "concurrently": "^4.1.0",
+    "connect-session-sequelize": "^5.2.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "express-winston": "^3.0.0",
+    "haxroomie": "github:morko/haxroomie",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^4.38.0",
+    "socket.io": "^2.1.1",
+    "sqlite3": "^4.0.0",
+    "winston": "^3.1.0",
+    "yargs": "^12.0.5"
+  },
+  "author": "Oskari Pöntinen",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/morko/haxroomie-web/issues"
+  },
+  "homepage": "https://github.com/morko/haxroomie-web#readme",
+  "devDependencies": {
+    "jsdoc": "^3.5.5"
+  }
+}

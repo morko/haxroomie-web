@@ -1,0 +1,18 @@
+.SmallButton {
+  padding: .125rem .25rem !important;
+  font-size: .8rem !important;
+  line-height: 1 !important;
+  border-radius: .2rem !important;
+}
+.SmallButton.active.focus,
+.SmallButton.active:focus,
+.SmallButton.focus,
+.SmallButton.focus:active,
+.SmallButton:active:focus,
+.SmallButton:focus {
+  outline: 0 !important;
+  outline-offset: 0  !important;
+  background-image: none  !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none  !important;
+}

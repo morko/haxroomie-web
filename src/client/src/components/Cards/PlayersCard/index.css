@@ -1,0 +1,28 @@
+.PlayerTableRow td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.PlayerTable {
+  table-layout: fixed;
+}
+
+.RedTeamText {
+  text-align: center;
+  font-weight: bold;
+  color: red;
+}
+.BlueTeamText {
+  text-align: center;
+  font-weight: bold;
+  color: blue;;
+}
+.SpectatorTeamText {
+  text-align: center;
+  font-weight: bold;
+  color: black;;
+}
+
+.PlayerTableRow button {
+  padding: .2rem;
+}
