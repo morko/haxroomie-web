@@ -7,12 +7,8 @@
 }
 
 .AdvancedForm {
-  border: 2px solid #a2b6ca;
-  border-right: 0px;
-  border-left: 0px;
-  border-radius: .25rem;
+  border-top: 2px solid #a2b6ca;
   margin-top: 1rem;
-
 }
 .AdvancedForm-toggle {
   float: right;
