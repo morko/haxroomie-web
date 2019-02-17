@@ -14,7 +14,7 @@ import {
 import logo from '../../logo.svg';
 import PropTypes from 'prop-types';
 import ConfirmationModal from '../Modals/ConfirmationModal';
-import styles from './index.css';
+import './index.css';
 
 class Header extends Component {
   constructor(props) {
