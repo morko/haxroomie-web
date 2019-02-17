@@ -43,7 +43,6 @@ let config = {
       */
      user: {
        name: 'tester',
-       email: 'admin@example.com',
        password: 'salamini'
      }
   }

@@ -25,6 +25,8 @@ function createDatabase(storage, opt) {
   return {
     init,
     createUser,
+    removeUser,
+    updateUser,
     get sequelize() {
       if (!initialized)
         throw new Error('Database is not initialized! Call init() first.');
@@ -46,18 +48,51 @@ function createDatabase(storage, opt) {
     initialized = true;
   }
 
-  async function createUser(user) {
+  async function createUser(user, throwIfExists = false) {
     logger.debug("Trying to create user: " + JSON.stringify(user));
     if (!initialized) {
       throw new Error('Database is not initialized! Call init() first.');
     }
+    let userModel = await models.User.find({
+      where: { name: user.name }
+    });
+    if (throwIfExists && userModel) {
+      throw new Error(`User ${user.name} exists already!`);
+    }
     await models.User.findOrCreate({
       where: { name: user.name },
       defaults: {
-        email: user.email,
         hash: user.password
       }
     });
+  }
+
+  async function removeUser(user) {
+    logger.debug("Trying to remove user: " + JSON.stringify(user));
+    if (!initialized) {
+      throw new Error('Database is not initialized! Call init() first.');
+    }
+    let userModel = await models.User.find({
+      where: { name: user.name }
+    });
+    if (!user) {
+      throw new Error(`Could not find user ${user.name}!`);
+    }
+    return userModel.destroy();
+  }
+
+  async function updateUser(user) {
+    logger.debug("Trying to update user: " + JSON.stringify(user));
+    if (!initialized) {
+      throw new Error('Database is not initialized! Call init() first.');
+    }
+    let userModel = await models.User.find({
+      where: { name: user.name }
+    });
+    if (!user) {
+      throw new Error(`Could not find user ${user.name}!`);
+    }
+    return userModel.update(user);
   }
 
 }
