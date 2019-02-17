@@ -7,7 +7,8 @@ let config = {
      * The port that the chromium headless browser will use as the
      * remote-debugging-port.
      *
-     * IMPORTANT: Select a port that is not open outside your LAN for
+     * IMPORTANT!
+     * Select a port that is not open outside your LAN for
      * security reasons.
      */
     port: 3056,
