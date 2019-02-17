@@ -36,7 +36,7 @@ let config = {
      * random salt here, but then you will loose all sessions when you restart
      * the app.
      */
-    secret: '',
+    secret: 'change this',
     /*
      * If true secures the sessions, but requires your server to support HTTPS.
      */
