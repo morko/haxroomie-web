@@ -7,6 +7,7 @@
   padding:10px;
   padding-bottom:64px;   /* Height of the footer */
 }
+
 .Footer {
   width:100%;
   margin-top: -64px; /* Height of the footer */
@@ -16,14 +17,18 @@
 }
 
 .Footer-github {
+  line-height: 64px; /* footer height */
   text-align: right;
+  vertical-align: middle;
+  margin-right: 10px;
 }
-.Footer-copyright {
-  margin: auto;
-}
-.Footer-copyright a {
-  margin: auto;
-  padding-left: 1rem;
-  color: rgb(255, 255, 255);
 
+.Footer-copyright p {
+  padding: 0;
+  line-height: 64px; /* footer height */
+  vertical-align: middle;
+}
+
+.Footer-copyright a {
+  color: rgb(255, 255, 255);
 }
