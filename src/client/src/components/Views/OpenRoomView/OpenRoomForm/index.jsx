@@ -29,21 +29,21 @@ function FormTextRow(props) {
       <FormGroup row>
         <Label for={name} sm="3">{label}</Label>
         <Col sm="9">
-        {valid 
-          ? <Input 
-            value={value} 
-            type={type} 
-            name={name} 
-            onChange={onChange} 
-            placeholder={placeholder} />
-          : <Input 
-            invalid 
-            value={value}
-            type={type} 
-            name={name} 
-            onChange={onChange} 
-            placeholder={placeholder} />
-        }
+          {valid
+            ? <Input
+              value={value}
+              type={type}
+              name={name}
+              onChange={onChange}
+              placeholder={placeholder} />
+            : <Input
+              invalid
+              value={value}
+              type={type}
+              name={name}
+              onChange={onChange}
+              placeholder={placeholder} />
+          }
         </Col>
       </FormGroup>
 
@@ -58,7 +58,7 @@ function FormTextRow(props) {
           </Col>
         </FormGroup>
       }
-    </div>   
+    </div>
 
   );
 }
@@ -70,7 +70,7 @@ class AdvancedForm extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.handleFileInputChange = this.handleFileInputChange.bind(this);
 
-    this.state = { 
+    this.state = {
       collapse: false,
       hhmConfigFile: ''
     };
@@ -94,7 +94,7 @@ class AdvancedForm extends React.Component {
         <div className="clearfix">
           <Button
             className="AdvancedForm-toggle"
-            color="secondary" 
+            color="secondary"
             onClick={this.toggle}>
             Advanced
           </Button>
@@ -102,8 +102,8 @@ class AdvancedForm extends React.Component {
         <Collapse isOpen={this.state.collapse}>
           <FormGroup>
             <Label for="hhmConfigFile">HHM config</Label>
-            <CustomInput 
-              type="file" 
+            <CustomInput
+              type="file"
               name="hhmConfigFile"
               id="hhmConfigFile"
               label={this.state.hhmConfigFile}
@@ -112,12 +112,12 @@ class AdvancedForm extends React.Component {
 
           <FormGroup>
             <Label for="pluginFiles">Plugins</Label>
-            <Input 
-              type="file" 
-              name="pluginFiles" 
+            <Input
+              type="file"
+              name="pluginFiles"
               id="pluginFiles"
-              multiple 
-              onChange={this.handleFileInputChange}/>
+              multiple
+              onChange={this.handleFileInputChange} />
           </FormGroup>
 
         </Collapse>
@@ -131,7 +131,7 @@ export default class OpenRoomForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state =  this.props.roomConfig;
+    this.state = this.props.roomConfig;
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFileInputChange = this.handleFileInputChange.bind(this);
@@ -145,7 +145,7 @@ export default class OpenRoomForm extends React.Component {
   createMaxPlayersOptions(maxPlayers) {
     let options = [];
     for (let i = 0; i < maxPlayers; i++) {
-      options.push(<option key={i+1}>{i+1}</option>);
+      options.push(<option key={i + 1}>{i + 1}</option>);
     }
     return options;
   }
@@ -159,7 +159,7 @@ export default class OpenRoomForm extends React.Component {
     if (name === 'token') value = this.trimToken(value);
 
     this.setState(
-      { [name]: value }, 
+      { [name]: value },
       () => this.props.saveConfig(this.state)
     );
   }
@@ -180,9 +180,9 @@ export default class OpenRoomForm extends React.Component {
         };
 
         this.setState(
-          { 
-            hhmConfigFile: hhmConfigFile 
-          }, 
+          {
+            hhmConfigFile: hhmConfigFile
+          },
           () => this.props.saveConfig(this.state)
         );
       }
@@ -201,10 +201,10 @@ export default class OpenRoomForm extends React.Component {
             content: fileReader.result
           };
 
-          this.setState( prevState =>
-            ({ 
+          this.setState(prevState =>
+            ({
               pluginFiles: [...prevState.pluginFiles, pluginFile],
-            }), 
+            }),
             () => this.props.saveConfig(this.state)
           );
         }
@@ -261,10 +261,10 @@ export default class OpenRoomForm extends React.Component {
         <FormGroup row>
           <Label for="maxPlayers" sm="3">Max players</Label>
           <Col sm="3">
-            <Input 
+            <Input
               defaultValue="8"
-              type="select" 
-              name="maxPlayers" 
+              type="select"
+              name="maxPlayers"
               className="maxPlayers"
               value={this.state.maxPlayers}
               onChange={this.handleInputChange}>
@@ -281,15 +281,15 @@ export default class OpenRoomForm extends React.Component {
           onChange={this.handleInputChange}
         />
 
-        <FormTextRow 
-          type="password" 
-          label="Admin password" 
-          name="adminPassword" 
+        <FormTextRow
+          type="password"
+          label="Admin password"
+          name="adminPassword"
           value={this.state.adminPassword}
           onChange={this.handleInputChange}>
           Get admin ingame with !auth admin [password]
         </FormTextRow>
-        
+
         <FormTextRow
           type="text"
           label="Token"
@@ -297,14 +297,15 @@ export default class OpenRoomForm extends React.Component {
           valid={this.state.token}
           value={this.state.token}
           onChange={this.handleInputChange}>
-          Obtain a token <a href="https://www.haxball.com/headlesstoken" 
-          target="_blank">here</a> and insert it above.
+          Obtain a token <a href="https://www.haxball.com/headlesstoken"
+          target="_blank" rel="noopener noreferrer">here</a> and insert it 
+          above.
         </FormTextRow>
 
         <FormGroup check>
           <Label check>
-            <Input 
-              type="checkbox" 
+            <Input
+              type="checkbox"
               name="public"
               value="true"
               onChange={this.handleInputChange} />{' '}
@@ -312,7 +313,7 @@ export default class OpenRoomForm extends React.Component {
           </Label>
         </FormGroup>
 
-        <Button className="OpenRoomForm-submit"color="success">Open Room</Button>
+        <Button className="OpenRoomForm-submit" color="success">Open Room</Button>
 
         <AdvancedForm handleFileInputChange={this.handleFileInputChange} />
 
