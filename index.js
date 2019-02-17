@@ -29,6 +29,10 @@ const argv = require(`yargs`)
   .describe(`s`, `Set a secret salt used to sign the session ID cookie.`)
   .default(`secret`, config.server.secret)
 
+  .alias(`e`, `secure`)
+  .describe(`secure`, `Secure the sessions (requires HTTPS support)`)
+  .default(`secret`, config.server.secure)
+
   .alias(`sq`, `sqlite-storage-path`)
   .describe(`sq`, `Set a path from where sqlite database will used from.`)
   .default(`sqlite-storage-path`, config.server.storage)
@@ -47,6 +51,7 @@ const argv = require(`yargs`)
     haxroomie: haxroomie,
     port: argv.port,
     secret: argv.secret,
+    secure: argv.secure,
     storage: argv.storage,
     defaultUser: config.server.user
   });

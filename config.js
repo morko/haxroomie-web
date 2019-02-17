@@ -36,14 +36,18 @@ let config = {
      * random salt here, but then you will loose all sessions when you restart
      * the app.
      */
-     secret: '',
-     /*
-      * Account details for the default user. Note that it is not recommended
-      * to create the account here because the password is stored here in
-      * clear text. You can use e.g. the user.js script to modify user
-      * accounts.
-      */
-     user: {
+    secret: '',
+    /*
+     * If true secures the sessions, but requires your server to support HTTPS.
+     */
+    secure: false,
+    /*
+     * Account details for the default user. Note that it is not recommended
+     * to create the account here because the password is stored here in
+     * clear text. You can use e.g. the user.js script to modify user
+     * accounts.
+     */
+    user: {
        name: 'haxroomie',
        password: 'haxroomie'
      }

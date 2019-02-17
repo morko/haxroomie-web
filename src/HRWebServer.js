@@ -8,6 +8,7 @@ module.exports = class Server {
     if (!opt.haxroomie) {
       throw new Error('Missing required argument: opt.haxroomie');
     }
+
     this.haxroomie = opt.haxroomie;
 
     opt = opt || {};
@@ -15,6 +16,7 @@ module.exports = class Server {
     this.port = opt.port || 3055;
 
     this.secret = opt.secret;
+    this.secure = opt.secure;
 
     this.storage = opt.storage ||
       path.resolve(path.join(__dirname, '..', 'storage.sqlite'));
@@ -35,6 +37,7 @@ module.exports = class Server {
       },
       session: {
         secret: this.secret,
+        secure: this.secure,
         key: 'haxroomie.sid'
       }
     });

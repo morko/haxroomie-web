@@ -7,7 +7,6 @@
 const session = require('express-session');
 // initalize sequelize with session store
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const inProduction = process.env.NODE_ENV === 'production';
 
 module.exports = createSessionHandler;
 /**
@@ -17,7 +16,8 @@ module.exports = createSessionHandler;
  *     the session id If key is not provided a default key is created 
  *     using crypto module. This randomly generated default key makes the
  *     sessions unusable after the application is restarted.
- * @param {string} [opt.key] - A dictionary key for the session id.
+ * @param {boolean} [opt.secure] - If set to true the session security
+ *     will be hardened but it requires your server to support HTTPS.
  * @param {object} [opt.cookie] - Cookie options for express-session. See
  *     {@link https://github.com/expressjs/session#cookie|express-session documentation}.
  *     Default value is
@@ -33,11 +33,14 @@ function createSessionHandler(opt) {
   let options = {};
 
   options.secret = opt.secret || require('crypto').randomBytes(64).toString('hex');
-  options.key = opt.key || 'seqpress.sid';
+  options.secure = opt.hasOwnProperty('secure')
+    ? Boolean(opt.secure) 
+    : false;
+
   options.cookie = {
     path: '/',
     httpOnly: true,
-    secure: inProduction,
+    secure: options.secure,
     maxAge: 2419200000,
     ...opt.cookie
   };
@@ -47,7 +50,7 @@ function createSessionHandler(opt) {
   let middleware = session({
     store: store,
     secret: options.secret,
-    key: options.key,
+    name: 'sessionId',
     resave: false,
     saveUninitialized: false,
     cookie: options.cookie
