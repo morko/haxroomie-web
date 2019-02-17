@@ -136,7 +136,9 @@ function createServer(opt) {
     init,
     listen,
     close,
-    createUser: async (user) => await database.createUser(user)
+    createUser: async (user) =>  database.createUser(user),
+    removeUser: async (user) => database.removeUser(user),
+    updateUser: async (user) => database.updateUser(user)
   }
 
   async function init() {
