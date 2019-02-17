@@ -21,7 +21,6 @@ module.exports = class Server {
 
     this.defaultUser = opt.defaultUser || {
       name: 'haxroomie',
-      email: 'admin@example.com',
       password: 'haxroomie'
     }
 
@@ -46,7 +45,6 @@ module.exports = class Server {
 
     await this.server.createUser({ 
       name: this.defaultUser.name, 
-      email: this.defaultUser.email, 
       password: this.defaultUser.password
     });
 

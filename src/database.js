@@ -54,7 +54,6 @@ function createDatabase(storage, opt) {
     await models.User.findOrCreate({
       where: { name: user.name },
       defaults: {
-        email: user.email,
         hash: user.password
       }
     });

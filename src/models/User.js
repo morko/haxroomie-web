@@ -10,13 +10,6 @@ function createUser(sequelize, DataTypes) {
         len: [6, 18]
       }
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isEmail: true
-      }
-    },
     // stores passwords as hashed values
     hash: {
       type: DataTypes.STRING,
@@ -34,8 +27,7 @@ function createUser(sequelize, DataTypes) {
   User.prototype.getPublicProfile = function() {
     return {
       id: this.id,
-      name: this.name,
-      email: this.email
+      name: this.name
     }
   }
 
