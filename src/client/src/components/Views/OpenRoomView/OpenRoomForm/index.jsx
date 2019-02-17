@@ -167,7 +167,7 @@ export default class OpenRoomForm extends React.Component {
   handleFileInputChange(event) {
     const name = event.target.name;
 
-    if (name == 'hhmConfigFile') {
+    if (name === 'hhmConfigFile') {
       let file = event.target.files[0];
       if (!file) return;
 
