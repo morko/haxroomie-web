@@ -71,17 +71,12 @@ function PlayerTable (props) {
 }
 
 export default class PlayersCard extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentWillMount() {
     this.props.getPlayers();
   }
 
   render() {
-
-
     return (
       <div className="PlayerTableCard Card">
         <Card color="dark">

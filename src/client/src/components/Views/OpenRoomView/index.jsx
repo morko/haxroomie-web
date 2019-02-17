@@ -11,10 +11,6 @@ import './index.css';
 
 export default class OpenRoomView extends React.Component {
 
-  constructor(props) {
-    super(props);  
-  }
-
   render() {
     return (
       <div className="View OpenRoomView">
