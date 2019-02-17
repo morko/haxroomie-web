@@ -34,8 +34,9 @@ const argv = require(`yargs`)
       })
       .demand(['name', 'password'])
   })
+  .command('list', 'lists users')
 
-  .demandCommand(1, 'You need to give the command (add/remove/update)')
+  .demandCommand(1, 'You need to give the command (add/remove/update/list)')
   .argv;
 
   (async function app() {
@@ -56,15 +57,29 @@ const argv = require(`yargs`)
         return database.createUser({
           name: argv.name,
           password: argv.password
-        }, true)
+        }, true);
       case 'remove':
         return database.removeUser({
           name: argv.name
-        })
+        });
       case 'update':
         return database.updateUser({
           name: argv.name,
           password: argv.password
-        })
+        });
+      case 'list':
+        let userModels = await database.getUsers({
+          name: argv.name,
+          password: argv.password
+        });
+        printUserList(userModels);
+        return;
     }
+  }
+
+  function printUserList(userModels) {
+    let users = userModels.map(
+      (u, i) => `${i+1}. ${u.name}`
+    );
+    for (let u of users) console.log(u);
   }

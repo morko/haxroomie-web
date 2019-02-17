@@ -27,6 +27,7 @@ function createDatabase(storage, opt) {
     createUser,
     removeUser,
     updateUser,
+    getUsers,
     get sequelize() {
       if (!initialized)
         throw new Error('Database is not initialized! Call init() first.');
@@ -93,6 +94,20 @@ function createDatabase(storage, opt) {
       throw new Error(`Could not find user ${user.name}!`);
     }
     return userModel.update(user);
+  }
+
+  async function getUsers() {
+    logger.debug("Listing users.");
+    if (!initialized) {
+      throw new Error('Database is not initialized! Call init() first.');
+    }
+    let userModels = await models.User.findAll({
+      attributes: ['name']
+    });
+    if (!userModels) {
+      throw new Error(`Could not find any users!`);
+    }
+    return userModels;
   }
 
 }
