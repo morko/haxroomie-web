@@ -1,3 +1,52 @@
 # Haxroomie web
 
-Web client for haxroomie.
+Web client for haxroomie to run haxball rooms without desktop environment and control it with through a website.
+
+# Installation
+
+To install the project for your server you will need [Node.js 10.15.1](https://nodejs.org/en/) (or newer) and [Git](https://git-scm.com/) installed.
+
+First download the project using [Git](https://git-scm.com/).
+```
+git clone https://www.github.com/morko/haxroomie-web
+```
+This will create a haxroomie-web directory in your current folder.
+
+Then install the project dependencies using node package manager that gets installed with [Node.js](https://nodejs.org/en/).
+```
+cd haxroomie-web
+npm install
+```
+
+Edit the configuration file `config.js` in the project root directory. The file contains explanations for the settings.
+
+Haxroomie web is a Node.js express application. You can either just change the port to 80 or setup a reverse proxy with some web server like nginx or Apache to the local port where haxroomie is running. Search for guides how to host Node.js express applications in the Internet if you have no clue what you are doing. :P
+
+## Troubleshooting
+
+If the application does not lauch at first you are probably missing some dependencies for the chrome haxroomie runs in the background. Common dependencies are listed in [haxroomie readme](https://github.com/morko/haxroomie#troubleshooting). If you run into more problems, check out [[puppeteer troubleshooting](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md). They have information about running the headless chrome in different service providers.
+
+# Usage
+
+Once you have your config done you can navigate to your hosts URL and start opening rooms remotely. Every user gets a new tab in the headless browser that haxroomie is running in the background. This means there is one controllable room per account. Users can connect with the same account on multiple different machines/browsers.
+
+## Account creation/removal/updating
+
+Accounts can be added, removed and updated with the `user.js` script located in the project root folder. Run it with
+```
+node user.js --help
+```
+to see available commands.
+
+## Running own room scripts
+
+Haxroomie supports running your own scripts or [Haxball Headless Manager (HHM)](https://github.com/saviola777/haxball-headless-manager) plugins. Just add them in the open room forms advanced sections "Plugins" field. 
+
+You can even give Haxroomie your own HHM configuration that is used to start the room and setup plugin repositories if you wish. However, using your own HHM configuration makes the open room forms other fields like "Room name" not respected if it is not created as explained in https://github.com/morko/haxroomie#cli-usage.
+
+**THE MOST IMPORTANT THING IS THAT THE HHM CONFIG FILES HHM.config PROPERTY HAS A `token` PROPERTY LIKE THIS:**
+```
+HHM.config.room = {
+  token: haxroomie.token
+}
+```
