@@ -39,11 +39,14 @@ let config = {
      */
      secret: '',
      /*
-      * Account details for the admin user.
+      * Account details for the default user. Note that it is not recommended
+      * to create the account here because the password is stored here in
+      * clear text. You can use e.g. the user.js script to modify user
+      * accounts.
       */
      user: {
-       name: 'tester',
-       password: 'salamini'
+       name: 'haxroomie',
+       password: 'haxroomie'
      }
   }
 }
