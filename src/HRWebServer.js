@@ -37,8 +37,7 @@ module.exports = class Server {
       },
       session: {
         secret: this.secret,
-        secure: this.secure,
-        key: 'haxroomie.sid'
+        secure: this.secure
       }
     });
   }
