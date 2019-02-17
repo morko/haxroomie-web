@@ -22,7 +22,6 @@ let config = {
    * Server side configurations.
    */
   server: {
-    domain: 'localhost',
     /*
      * Port that the express server listens to for incoming HTTP connections.
      */
