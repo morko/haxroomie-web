@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev:server": "nodemon -i ./src/client node index.js -w",
+    "dev:server": "nodemon -i ./src/client --exec \"node index.js -w\"",
     "dev:client": "cd src/client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:client\"",
