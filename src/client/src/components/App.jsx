@@ -5,8 +5,6 @@ import OpenRoomViewContainer from '../containers/OpenRoomViewContainer';
 import LoadingOverlay from './Overlays/LoadingOverlay';
 import Footer from './Footer';
 
-
-
 class App extends Component {
 
   componentWillMount() {

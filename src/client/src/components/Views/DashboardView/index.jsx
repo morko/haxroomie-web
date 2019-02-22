@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
 import Header from '../../Header';
-import { PlayersCard, RoomInfoCard } from '../../Cards';
+import { PlayersCard, RoomInfoCard, PluginsCard } from '../../Cards';
 import PropTypes from 'prop-types';
 import './index.css';
 
@@ -28,6 +28,14 @@ export default class DashboardView extends Component {
                 banPlayer={this.props.banPlayer}
                 adminPlayer={this.props.adminPlayer}
                 unadminPlayer={this.props.unadminPlayer}
+              />
+            </Col>
+            <Col xs="12">
+              <PluginsCard
+                pluginList={this.props.pluginList}
+                getPlugins={this.props.getPlugins}
+                enablePlugin={this.props.enablePlugin}
+                disablePlugin={this.props.disablePlugin}
               />
             </Col>
           </Row>

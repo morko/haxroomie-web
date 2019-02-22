@@ -6,7 +6,7 @@ import {
  } from 'reactstrap';
 import Header from '../../Header';
 import PropTypes from 'prop-types';
-import OpenRoomForm from './OpenRoomForm';
+import OpenRoomForm from '../../Forms/OpenRoomForm';
 import './index.css';
 
 export default class OpenRoomView extends React.Component {

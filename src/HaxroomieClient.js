@@ -20,61 +20,7 @@ module.exports = class HaxroomieClient {
   }
 
   disconnectFromSession() {
-    if (!this.session) return;
     this.session.unsubscribe(this.id);
-  }
-
-  /**
-   * Registers listeners for events sent from the socket and relay them to the
-   * running room instance.
-   */
-  // TODO: maybe this would be the best place to do validation of the data?
-  registerListeners(socket) {
-    socket.on('send-room', (action) => {
-      if (action.type === 'CALL_ROOM') {
-        let args = action.payload.args || [];
-        this.callRoom(action.payload.fn, ...args);
-      } else {
-        this.sendToHaxroomie(action);
-      }
-    });
-  }
-
-  /**
-   * Sends actions to the haxroomie.
-   */
-  sendToHaxroomie(action) {
-    if(!this.session) return false;
-    this.session.sendToRoom(action);
-    return true;
-  }
-
-  async callRoom(fn, ...args) {
-    if (!this.session || !this.socket) return;
-    let result;
-    try {
-      result = await this.session.callRoom(fn, ...args);
-    } catch (err) {
-      this.socket.emit('haxroomie-action', {
-        type: 'CALL_ROOM_ERROR',
-        payload: {
-          fn: fn,
-          msg: err.message
-        },
-        error: true,
-        sender: this.id
-      });
-      return;
-    }
-
-    this.socket.emit('haxroomie-action', {
-      type: 'CALL_ROOM_RESULT',
-      payload: {
-        fn: fn,
-        result: result
-      },
-      sender: this.id
-    });
   }
 
   /**
@@ -88,5 +34,174 @@ module.exports = class HaxroomieClient {
     // send only the error message
     if (action.error) action.payload = action.payload.message;
     this.socket.emit('haxroomie-action', action);
+  }
+
+  /**
+   * Registers listeners for events sent from the socket and to relay
+   * them to the session.
+   */
+  // TODO: should validate the data?
+  registerListeners(socket) {
+    socket.on('send-room', async (action) => {
+
+      let payload = action.payload || {};
+      let args = payload.args || [];
+
+      switch (action.type) {
+
+        case 'CALL_ROOM':
+          await this.onCallRoom(payload.fn, ...args);
+          break;
+
+        case 'CALL_HHM':
+          await this.onCallHHM(payload.fn, ...args);
+          break;
+
+        case 'OPEN_ROOM':
+          await this.onOpenRoom(payload.roomConfig);
+          break;
+
+        case 'CLOSE_ROOM':
+          await this.onCloseRoom();
+          break;
+
+        default:
+          break;
+      }
+
+    });
+  }
+
+  async onOpenRoom(config) {
+    try {
+      await this.session.openRoom(config);
+    } catch(err) {
+      logger.error(err);
+      this.socket.emit('haxroomie-action', {
+        type:'OPEN_ROOM_STOP',
+        sender: this.session.id,
+        error: true,
+        payload: err.message
+      });
+    }
+  }
+
+  async onCloseRoom() {
+    try {
+      await this.session.closeRoom();
+    } catch(err) {
+      logger.error(err);
+      this.socket.emit('haxroomie-action', {
+        type:'CLOSE_ROOM_ERROR',
+        sender: this.session.id,
+        error: true,
+        payload: err.message
+      });
+    }
+  }
+
+  /**
+   * Handles the errors that can happen when calling the functions in session
+   * object. Logs the error ands send the error to the client aswell.
+   * 
+   * @param {string} type - action type from the action that was sent by 
+   *    webclient
+   * @param {string} fn - function that was called
+   * @param {Error} error - the error that happened
+   */
+  onCallError(type, fn, error) {
+    let errorType = `${type}_ERROR`;
+    logger.error(`${errorType}: ${fn}\n${error.stack}`);
+
+    this.socket.emit('haxroomie-action', {
+      type: errorType,
+      payload: {
+        fn: fn,
+        msg: error.message
+      },
+      error: true,
+      sender: this.id
+    });
+  }
+
+  /**
+   * Handles successfull calls to the function in this.session object.
+   * 
+   * @param {string} type - action type from the action that was sent by 
+   *    webclient
+   * @param {string} fn - function that was called
+   * @param {any} result - the return value of the function
+   */
+  onCallResult(type, fn, result) {
+    let resultType = `${type}_RESULT`;
+
+    this.socket.emit('haxroomie-action', {
+      type: resultType,
+      payload: {
+        fn: fn,
+        result: result
+      },
+      sender: this.id
+    });
+  }
+
+
+  /**
+   * Calls a function in the 
+   * [haxball roomObject](https://github.com/haxball/haxball-issues/wiki/Headless-Host#roomobject).
+   * 
+   * @param {string} fn - function of haxball roomObject
+   * @param  {...any} args - arguments for the function
+   */
+  async onCallRoom(fn, ...args) {
+    let result;
+    try {
+      result = await this.session.callRoom(fn, ...args);
+    } catch (err) {
+      this.onCallError('CALL_ROOM', fn, err);
+      return;
+    }
+    this.onCallResult('CALL_ROOM', fn, result);
+  }
+
+  /**
+   * Tests if the HHM function is valid.
+   * 
+   * @param {string} fn - function to be tested
+   */
+  isSupportedHHMFunction(fn) {
+    return (
+      fn === 'getPlugin' 
+      || fn === 'getPlugins'
+      || fn === 'enablePlugin'
+      || fn === 'disablePlugin'
+      || fn === 'getDependentPlugins'
+    );
+  }
+
+  /**
+   * Calls a function in the Haxball Headless Manager using the session objects
+   * supported functions.
+   * 
+   * @param {string} fn - supported HHM function of this.session
+   * @param  {...any} args - arguments for the function
+   */
+  async onCallHHM(fn, ...args) {
+    if (!this.isSupportedHHMFunction(fn)) {
+      this.onCallError(
+        'CALL_HHM', 
+        fn, 
+        new Error(`UNSUPPORTED_HHM_FUNCTION: ${fn}`)
+      );
+      return;
+    }
+    let result;
+    try {
+      result = await this.session[fn](...args);
+    } catch (err) {
+      this.onCallError('CALL_HHM', fn, err);
+      return;
+    }
+    this.onCallResult('CALL_HHM', fn, result);
   }
 }

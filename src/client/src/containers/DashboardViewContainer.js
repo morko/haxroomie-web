@@ -8,13 +8,19 @@ import {
   adminPlayer, 
   unadminPlayer 
 } from '../actions/playerActions';
+import { 
+  getPlugins, 
+  enablePlugin,
+   disablePlugin
+} from '../actions/pluginActions';
 
 
 function mapStateToProps(state, ownProps) {
     return {
       sessionID: state.connection.sessionID,
       roomInfo: state.room.roomInfo,
-      playerList: state.player.list
+      playerList: state.player.list,
+      pluginList: state.plugin.list
     }
   }
   
@@ -26,6 +32,9 @@ function mapStateToProps(state, ownProps) {
       banPlayer: (id) => dispatch(banPlayer(id)),
       adminPlayer: (id) => dispatch(adminPlayer(id)),
       unadminPlayer: (id) => dispatch(unadminPlayer(id)),
+      getPlugins: () => dispatch(getPlugins()),
+      enablePlugin: (name) => dispatch(enablePlugin(name)),
+      disablePlugin: (name) => dispatch(disablePlugin(name))
     }
   }
   
