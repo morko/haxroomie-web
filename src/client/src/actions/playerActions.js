@@ -4,7 +4,7 @@ export function getPlayers() {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'getPlayerList'
@@ -20,7 +20,7 @@ export function kickPlayer(id, reason = 'Bye!') {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'kickPlayer',
@@ -37,7 +37,7 @@ export function banPlayer(id, reason = 'Bye!') {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'kickPlayer',
@@ -54,7 +54,7 @@ export function adminPlayer(id) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'setPlayerAdmin',
@@ -71,7 +71,7 @@ export function unadminPlayer(id) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'setPlayerAdmin',
@@ -88,7 +88,7 @@ export function clearBans() {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'clearBans'

@@ -3,7 +3,7 @@ export function getPlugins() {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_HHM',
       payload: {
         fn: 'getPlugins'
@@ -18,7 +18,7 @@ export function enablePlugin(name) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_HHM',
       payload: {
         fn: 'enablePlugin',
@@ -34,7 +34,7 @@ export function disablePlugin(name) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CALL_HHM',
       payload: {
         fn: 'disablePlugin',

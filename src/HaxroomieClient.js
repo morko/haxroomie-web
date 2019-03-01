@@ -16,7 +16,7 @@ module.exports = class HaxroomieClient {
   async connectToSession(haxroomie) {
     // get the room Session object for the user and subscribe to actions
     this.session = await haxroomie.getSession(this.userProfile.name);
-    this.session.subscribe(this.id, this.onHaxroomieActionReceived.bind(this));
+    this.session.subscribe(this.id, this.onHaxroomieMessageReceived.bind(this));
   }
 
   disconnectFromSession() {
@@ -26,14 +26,14 @@ module.exports = class HaxroomieClient {
   /**
    * Relays all the actions to the socket to be handled on the client side.
    */
-  onHaxroomieActionReceived(action) {
+  onHaxroomieMessageReceived(action) {
     if (!this.socket) {
       logger.error(`CLIENT (${this.id}): missing socket`);
       this.session.unsubscribe(this.id);
     }
     // send only the error message
     if (action.error) action.payload = action.payload.message;
-    this.socket.emit('haxroomie-action', action);
+    this.socket.emit('haxroomie-message', action);
   }
 
   /**
@@ -42,7 +42,7 @@ module.exports = class HaxroomieClient {
    */
   // TODO: should validate the data?
   registerListeners(socket) {
-    socket.on('send-room', async (action) => {
+    socket.on('send-haxroomie', async (action) => {
 
       let payload = action.payload || {};
       let args = payload.args || [];
@@ -77,7 +77,7 @@ module.exports = class HaxroomieClient {
       await this.session.openRoom(config);
     } catch(err) {
       logger.error(err);
-      this.socket.emit('haxroomie-action', {
+      this.socket.emit('haxroomie-message', {
         type:'OPEN_ROOM_STOP',
         sender: this.session.id,
         error: true,
@@ -91,7 +91,7 @@ module.exports = class HaxroomieClient {
       await this.session.closeRoom();
     } catch(err) {
       logger.error(err);
-      this.socket.emit('haxroomie-action', {
+      this.socket.emit('haxroomie-message', {
         type:'CLOSE_ROOM_ERROR',
         sender: this.session.id,
         error: true,
@@ -113,7 +113,7 @@ module.exports = class HaxroomieClient {
     let errorType = `${type}_ERROR`;
     logger.error(`${errorType}: ${fn}\n${error.stack}`);
 
-    this.socket.emit('haxroomie-action', {
+    this.socket.emit('haxroomie-message', {
       type: errorType,
       payload: {
         fn: fn,
@@ -135,7 +135,7 @@ module.exports = class HaxroomieClient {
   onCallResult(type, fn, result) {
     let resultType = `${type}_RESULT`;
 
-    this.socket.emit('haxroomie-action', {
+    this.socket.emit('haxroomie-message', {
       type: resultType,
       payload: {
         fn: fn,

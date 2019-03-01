@@ -4,7 +4,7 @@ export function openRoom(roomConfig) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'OPEN_ROOM',
       payload: {
         roomConfig: roomConfig
@@ -20,7 +20,7 @@ export function closeRoom(roomConfig) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-room', {
+    socket.emit('send-haxroomie', {
       type: 'CLOSE_ROOM',
       sender: socket.id
     });
