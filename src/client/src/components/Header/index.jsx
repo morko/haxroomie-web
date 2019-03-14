@@ -11,7 +11,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Button } from 'reactstrap';
-import logo from '../../logo.svg';
+import logo from '../../logo.png';
 import PropTypes from 'prop-types';
 import ConfirmationModal from '../Modals/ConfirmationModal';
 import './index.css';
