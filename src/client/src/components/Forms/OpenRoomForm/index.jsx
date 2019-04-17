@@ -3,16 +3,19 @@ import {
   Row,
   Col,
   Button,
-  CustomInput,
   Form,
   FormGroup,
+  InputGroup,
+  CustomInput,
+  InputGroupAddon,
   Label,
   Input,
   Alert,
-  FormText,
-  Collapse
+  FormText
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import AdvancedForm from './AdvancedForm';
 import './index.css';
 
 function FormTextRow(props) {
@@ -63,83 +66,27 @@ function FormTextRow(props) {
   );
 }
 
-class AdvancedForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.handleFileInputChange = this.handleFileInputChange.bind(this);
-
-    this.state = {
-      collapse: false,
-      hhmConfigFile: ''
-    };
-  }
-
-  handleFileInputChange(event) {
-    const name = event.target.name;
-    if (name === 'hhmConfigFile') {
-      this.setState({ [name]: event.target.files[0].name });
-    }
-    this.props.handleFileInputChange(event);
-  }
-
-  toggle() {
-    this.setState({ collapse: !this.state.collapse });
-  }
-
-  render() {
-    return (
-      <div className="AdvancedForm">
-        <div className="clearfix">
-          <Button
-            className="AdvancedForm-toggle"
-            color="secondary"
-            onClick={this.toggle}>
-            Advanced
-          </Button>
-        </div>
-        <Collapse isOpen={this.state.collapse}>
-          <FormGroup>
-            <Label for="hhmConfigFile">HHM config</Label>
-            <CustomInput
-              type="file"
-              name="hhmConfigFile"
-              id="hhmConfigFile"
-              label={this.state.hhmConfigFile}
-              onChange={this.handleFileInputChange} />
-          </FormGroup>
-
-          <FormGroup>
-            <Label for="pluginFiles">Plugins</Label>
-            <Input
-              type="file"
-              name="pluginFiles"
-              id="pluginFiles"
-              multiple
-              onChange={this.handleFileInputChange} />
-          </FormGroup>
-
-        </Collapse>
-      </div>
-    );
-  }
-}
-
 export default class OpenRoomForm extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = this.props.roomConfig;
+    this.state.reposError = '';
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFileInputChange = this.handleFileInputChange.bind(this);
+    this.handlePluginFileClear = this.handlePluginFileClear.bind(this);
+    this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
+    this.handlePluginConfigChange = this.handlePluginConfigChange.bind(this);
+    this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
+    this.handleRepositoryClear = this.handleRepositoryClear.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     this.setState(this.props.roomConfig);
+    this.setState({reposError: ''});
   }
 
   createMaxPlayersOptions(maxPlayers) {
@@ -166,52 +113,85 @@ export default class OpenRoomForm extends React.Component {
 
   handleFileInputChange(event) {
     const name = event.target.name;
+    let file = event.target.files[0];
 
-    if (name === 'hhmConfigFile') {
-      let file = event.target.files[0];
-      if (!file) return;
+    if (!file) return;
 
-      let fileReader = new FileReader();
-      fileReader.onloadend = (e) => {
+    let fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
 
-        let hhmConfigFile = {
-          name: file.name,
-          content: fileReader.result
-        };
+      let fileData = {
+        name: file.name,
+        content: fileReader.result
+      };
 
-        this.setState(
-          {
-            hhmConfigFile: hhmConfigFile
-          },
-          () => this.props.saveConfig(this.state)
-        );
-      }
-      fileReader.readAsText(file);
+      this.setState(
+        {
+          [name]: fileData
+        },
+        () => this.props.saveConfig(this.state)
+      );
     }
-
-    if (name === 'pluginFiles') {
-
-      for (let file of event.target.files) {
-
-        let fileReader = new FileReader();
-        fileReader.onloadend = (e) => {
-
-          let pluginFile = {
-            name: file.name,
-            content: fileReader.result
-          };
-
-          this.setState(prevState =>
-            ({
-              pluginFiles: [...prevState.pluginFiles, pluginFile],
-            }),
-            () => this.props.saveConfig(this.state)
-          );
-        }
-        fileReader.readAsText(file);
-      }
-    }
+    fileReader.readAsText(file);
   }
+
+  handleRepositoryChange(event) {
+    let repo = event.target.value;
+
+    this.setState(prevState =>
+      ({
+        repositories: [repo || undefined],
+        reposError: '',
+      }),
+      () => this.props.saveConfig(this.state)
+    );
+
+    if (repo !== '' && !this.validURL(repo)) {
+      this.setState(prevState =>
+        ({
+          reposError: 'Not a valid URL.',
+        }),
+        () => this.props.saveConfig(this.state)
+      );
+    }
+
+  }
+    
+  handleRepositoryClear(event) {
+    this.setState({ repositories: [] });
+    event.target.value = '';
+  }
+
+  /**
+   * Checks if the given string is a valid URL.
+   * Source is from http://forums.devshed.com/javascript-development-115/regexp-match-url-pattern-493764.html
+   * 
+   * @param {string} str - url
+   */
+  validURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
+
+  handlePluginConfigChange(event) {
+    this.setState(prevState =>
+      ({
+        pluginConfig: event.jsObject,
+      }),
+      () => this.props.saveConfig(this.state)
+    );
+  }
+
+  handlePluginFileClear(event) {
+    this.setState({ pluginFile: null });
+    event.target.files = [];
+  }
+
   /**
    * Removes the quotes surrounding the token string if user includes them in
    * the token.
@@ -247,22 +227,22 @@ export default class OpenRoomForm extends React.Component {
           label="Room name"
           name="roomName"
           value={this.state.roomName}
-          onChange={this.handleInputChange}
-        />
+          onChange={this.handleInputChange}>
+        </FormTextRow>
 
         <FormTextRow
           type="text"
           label="Player name"
           name="playerName"
           value={this.state.playerName}
-          onChange={this.handleInputChange}
-        />
+          onChange={this.handleInputChange}>
+        </FormTextRow>
 
         <FormGroup row>
           <Label for="maxPlayers" sm="3">Max players</Label>
           <Col sm="3">
             <Input
-              defaultValue="8"
+              defaultValue="10"
               type="select"
               name="maxPlayers"
               className="maxPlayers"
@@ -278,8 +258,17 @@ export default class OpenRoomForm extends React.Component {
           label="Password"
           name="password"
           value={this.state.password}
-          onChange={this.handleInputChange}
-        />
+          onChange={this.handleInputChange}>
+        </FormTextRow>
+        
+        <FormTextRow
+          type="password"
+          label="Host password"
+          name="hostPassword"
+          value={this.state.hostPassword}
+          onChange={this.handleInputChange}>
+          Authenticate to host role with <code>!auth admin [password]</code>
+        </FormTextRow>
 
         <FormTextRow
           type="password"
@@ -287,9 +276,9 @@ export default class OpenRoomForm extends React.Component {
           name="adminPassword"
           value={this.state.adminPassword}
           onChange={this.handleInputChange}>
-          Get admin ingame with !auth admin [password]
+          Authenticate to admin role with <code>!auth admin [password]</code>
         </FormTextRow>
-
+        
         <FormTextRow
           type="text"
           label="Token"
@@ -301,6 +290,63 @@ export default class OpenRoomForm extends React.Component {
           target="_blank" rel="noopener noreferrer">here</a> and insert it 
           above.
         </FormTextRow>
+
+        <FormGroup>
+          <Label for="pluginFile"><FontAwesomeIcon icon="plug" size="2x" /> Script/plugin</Label>
+          <InputGroup>
+            <CustomInput
+              type="file"
+              name="pluginFile"
+              id="pluginFile"
+              label={ this.state.pluginFile && this.state.pluginFile.name }
+              onChange={this.handleFileInputChange} />
+            <InputGroupAddon addonType="append">
+              <Button onClick={this.handlePluginFileClear}>Clear</Button>
+            </InputGroupAddon>
+          </InputGroup>
+        </FormGroup>
+
+        <FormGroup row>
+          <Col sm="12">
+            <FormText>
+              Can be a regular regular room script for headless haxball or a HHM plugin.
+              See <a href="https://github.com/saviola777/haxball-headless-manager/wiki"
+              target="_blank" rel="noopener noreferrer">
+              saviolas Haxball Headless Manager wiki</a> for information
+              about the scripts/plugins. If you want to use multiple plugins
+              you need to setup a plugin repository.
+            </FormText>
+          </Col>
+        </FormGroup>
+
+
+        <FormGroup>
+          <Label for="repository"><FontAwesomeIcon icon="list" size="2x" /> Custom HHM repository</Label>
+          <InputGroup>
+            <Input
+              type="text"
+              name="repository"
+              id="repository"
+              invalid={this.state.reposError ? true : false}
+              value={this.state.repositories[0]}
+              onChange={this.handleRepositoryChange} />
+            <InputGroupAddon addonType="append">
+              <Button onClick={this.handleRepositoryClear}>Clear</Button>
+            </InputGroupAddon>
+          </InputGroup>
+        </FormGroup>
+
+        <FormGroup row>
+          <Col sm="12">
+            <FormText>
+              Here you can give the URL to Haxball Headless Manager repository
+              See <a href="https://github.com/saviola777/haxball-headless-manager/wiki"
+              target="_blank" rel="noopener noreferrer">
+              saviolas Haxball Headless Manager wiki</a> for information
+              about the repositories.
+            </FormText>
+          </Col>
+        </FormGroup>
 
         <FormGroup check>
           <Label check>
@@ -315,7 +361,16 @@ export default class OpenRoomForm extends React.Component {
 
         <Button className="OpenRoomForm-submit" color="success">Open Room</Button>
 
-        <AdvancedForm handleFileInputChange={this.handleFileInputChange} />
+        <AdvancedForm 
+          handleFileInputChange={this.handleFileInputChange}
+          handleRepositoryChange={this.handleRepositoryChange}
+          handlePluginConfigChange={this.handlePluginConfigChange}
+          pluginFile={this.state.pluginFile}
+          hhmConfigFile={this.state.hhmConfigFile}
+          repository={this.state.repository}
+          pluginConfig={this.state.pluginConfig}
+          isOpen={this.state.pluginFile || this.state.hhmConfigFile || this.state.repository}
+        />
 
       </Form>
     );

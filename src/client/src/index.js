@@ -8,6 +8,8 @@ import { Provider } from 'react-redux'
 
 import store from './store';
 
+import './fontawesome-icons';
+
 ReactDOM.render(
   <Provider store={store}>
 	  <AppContainer />

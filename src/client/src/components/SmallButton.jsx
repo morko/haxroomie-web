@@ -5,7 +5,13 @@ import './SmallButton.css';
 
 export default function SmallButton(props) {
   return (
-    <Button className="SmallButton" size='sm' outline color="secondary" onClick={props.onClick}>
+    <Button 
+    className="SmallButton" 
+    size='sm' 
+    outline 
+    color="secondary" 
+    onClick={props.onClick}
+    style={props.style}>
       {props.children}
     </Button>
   )

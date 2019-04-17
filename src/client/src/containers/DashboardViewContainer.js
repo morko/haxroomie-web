@@ -6,7 +6,8 @@ import {
   kickPlayer, 
   banPlayer, 
   adminPlayer, 
-  unadminPlayer 
+  unadminPlayer,
+  clearBans
 } from '../actions/playerActions';
 import { 
   getPlugins, 
@@ -32,6 +33,7 @@ function mapStateToProps(state, ownProps) {
       banPlayer: (id) => dispatch(banPlayer(id)),
       adminPlayer: (id) => dispatch(adminPlayer(id)),
       unadminPlayer: (id) => dispatch(unadminPlayer(id)),
+      clearBans: () => dispatch(clearBans()),
       getPlugins: () => dispatch(getPlugins()),
       enablePlugin: (name) => dispatch(enablePlugin(name)),
       disablePlugin: (name) => dispatch(disablePlugin(name))

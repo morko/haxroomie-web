@@ -35,8 +35,8 @@ export default class RoomInfoCard extends Component {
           <CardHeader className="text-white">Room Info</CardHeader>
           <ListGroup>
             <ListGroupItem>
-              <a href={this.props.roomInfo.roomlink} className="m-0">
-                {this.props.roomInfo.roomlink}
+              <a href={this.props.roomInfo.roomLink} className="m-0">
+                {this.props.roomInfo.roomLink}
               </a>
             </ListGroupItem>
 
@@ -88,6 +88,13 @@ export default class RoomInfoCard extends Component {
               <PasswordListGroupItem password={this.props.roomInfo.password} />
             }
 
+            {this.props.roomInfo.hostPassword &&
+              <PasswordListGroupItem 
+                label="Host password:"
+                password={this.props.roomInfo.hostPassword} 
+              />
+            }
+            
             {this.props.roomInfo.adminPassword &&
               <PasswordListGroupItem 
                 label="Admin password:"
@@ -109,7 +116,7 @@ RoomInfoCard.propTypes = {
     password: PropTypes.string,
     maxPlayers: PropTypes.number.isRequired,
     public: PropTypes.bool,
-    roomlink: PropTypes.string.isRequired,
+    roomLink: PropTypes.string.isRequired,
     token: PropTypes.string.isRequired,
     geo: PropTypes.shape({
       code: PropTypes.string,

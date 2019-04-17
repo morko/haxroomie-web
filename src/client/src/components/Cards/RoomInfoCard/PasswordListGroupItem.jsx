@@ -27,7 +27,7 @@ export default class PasswordListGroupItem extends Component {
             {this.props.label}
           </Col>
           <Col sm="2">
-            <SmallButton onClick={this.toggleShowPassword}>
+            <SmallButton onClick={this.toggleShowPassword} style={{float: 'right'}}>
               {this.state.showPassword ? 'hide' : 'show'}
             </SmallButton>
           </Col>

@@ -8,25 +8,48 @@
 
   <body>
 
-    <div class="seqp-login">
-      <div class="header">
-        <div class="logo-container">
-          <img src="/seqpress/logo.svg" alt="Logo" class="logo">
+    <div class="container">
+      
+      <div class="content">
+        <header class="header">
+          <div class="header-background"></div>
+          <div class="header-container responsive">
+            <div class="logo-container">
+              <img src="/seqpress/logo.png" alt="Logo" class="logo">
+            </div>
+            <div class="title-container">
+              <h2 class="title">Login</h2>
+            </div>
+          </div>
+        </header>
+  
+        <div class="login-form">
+          <div class="form-container responsive">
+            <form action="/login" method="post">
+              <label for="seqpress-user"><b>Username</b></label>
+              <input type="text" placeholder="Enter Username" name="seqpress-user" required>
+    
+              <label for="seqpress-password"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="seqpress-password" required>
+    
+              <button type="submit">Login</button>
+            </form>
+          </div>
         </div>
-        <h2 class="title">Login</h2>
+
       </div>
 
-      <form action="/login" method="post">
-        <div class="container">
-          <label for="seqpress-user"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="seqpress-user" required>
+      <footer class="footer">
+            <div class="footer-col footer-copyright">
+              <p><a href="https://www.github.com/morko/haxroomie-web/blob/master/LICENSE">&copy; 2019 Oskari Pöntinen</a></p>
+            </div>
 
-          <label for="seqpress-password"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="seqpress-password" required>
+            <div class="footer-col footer-github">
+              <a href="https://www.github.com/morko/haxroomie-web"><img src="/seqpress/GitHub-Mark-Light-64px.png"/></a>
+            </div>
+      </footer>
 
-          <button type="submit">Login</button>
-        </div>
-      </form>
     </div>
+    
   </body>
 </html>

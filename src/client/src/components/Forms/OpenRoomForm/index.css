@@ -14,3 +14,7 @@
   float: right;
   margin: .5rem;
 }
+
+.PluginConfigField {
+  border: 1px solid #a2b6ca;
+}

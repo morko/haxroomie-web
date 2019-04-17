@@ -8,10 +8,17 @@ let defaultState = {
     maxPlayer: 8,
     public: false,
     password: '',
-    adminPassword: 'haxroomie',
+    hostPassword: '',
+    adminPassword: '',
     token: '',
     hhmConfigFile: null,
-    pluginFiles: []
+    pluginFile: null,
+    repositories: [],
+    pluginConfig: {
+      'sav/commands': {
+        'commandPrefix': '!',
+      }
+    }
   }
 }
 

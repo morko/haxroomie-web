@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Card, CardHeader, CardBody, Table,
   Button, ButtonGroup } from 'reactstrap';
+import ConfirmationModal from '../../Modals/ConfirmationModal';
 import PropTypes from 'prop-types';
 import './index.css';
 
@@ -72,8 +73,29 @@ function PlayerTable (props) {
 
 export default class PlayersCard extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.handleClearBans = this.handleClearBans.bind(this);
+    this.toggleConfirmation = this.toggleConfirmation.bind(this);
+
+    this.state = {
+      showConfirmation: false
+    };
+  }
+
   componentWillMount() {
     this.props.getPlayers();
+  }
+
+  toggleConfirmation() {
+    this.setState( prevState => ({
+      showConfirmation: !prevState.showConfirmation
+    }))
+  }
+
+  handleClearBans() {
+    this.props.clearBans();
   }
 
   render() {
@@ -82,6 +104,13 @@ export default class PlayersCard extends Component {
         <Card color="dark">
           <CardHeader className="text-white">Players</CardHeader>
           <CardBody className="bg-light">
+            <Button 
+              color="danger" 
+              size="sm" 
+              className="float-right" 
+              onClick={this.toggleConfirmation}>
+              Clear bans
+            </Button>
             <PlayerTable 
               playerList={this.props.playerList}
               kickPlayer={this.props.kickPlayer}
@@ -90,8 +119,15 @@ export default class PlayersCard extends Component {
               unadminPlayer={this.props.unadminPlayer}
             />
           </CardBody>
-
         </Card>
+
+        <ConfirmationModal 
+          show={this.state.showConfirmation}
+          question="Are you sure you want to clear all bans from the room?"
+          onNo={this.toggleConfirmation}
+          onYes={this.handleClearBans}
+          toggleShow={this.toggleConfirmation}
+        />
       </div>
     );
   }

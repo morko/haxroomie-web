@@ -1,112 +1,173 @@
+ /* Background patterns from Toptal Subtle Patterns */
 @import url('https://fonts.googleapis.com/css?family=Averia+Serif+Libre|IBM+Plex+Sans:100,100i,400,400i,700,700i');
-body {font-family: Arial, Helvetica, sans-serif;}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+html {
+  height: 100%;
+}
+
+.container {
+  min-height:100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  background-image: url("/seqpress/stripes.png");
+  background-repeat: repeat;
+  position:relative;
+  flex: 1 0 auto;
+
+}
+
 form {
-  border: 3px solid #f1f1f1;
+  border: 0.2rem solid #f1f1f1;
   font-family: 'Averia Serif Libre', cursive;
+  background-color: white;
+  padding: 1rem;
 }
 
 input[type=text], input[type=password] {
   width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  padding: 0.7rem 1.1rem;
+  margin: 0.5rem 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 0.1rem solid #ccc;
   box-sizing: border-box;
 }
 
 button {
   background-color: #4CAF50;
   color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
+  padding: 1rem 1.1rem;
+  margin: 0.5rem 0;
   border: none;
   cursor: pointer;
   width: 100%;
 }
 
 button:hover {
-  opacity: 0.8;
-}
-
-
-.seqp-login {
-  width: 50%;
-  margin: auto;
-}
-@media screen and (max-width: 500px) {
-  .seqp-login {
-    width: 100%;
-  }
-}
-
-.seqp-error {
-  width: 50%;
-  margin: auto;
-}
-@media screen and (max-width: 500px) {
-  .seqp-error {
-    width: 100%;
-  }
+  opacity: 0.9;
 }
 
 .dialog {
-  border: 3px solid #f1f1f1;
+  border: 0.2rem solid #f1f1f1;
   font-family: 'Averia Serif Libre', cursive;
 }
 
-.cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
+.header {
+  position: relative;
+  background-image: url("/seqpress/pool_table.png");
 }
 
-.header {
-  height: 80px;
+.header-container {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+  align-items: center;
 }
+
+.responsive {
+  width: 50%;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 321px) and (max-width: 1024px) {
+  .responsive {
+    width: 75%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .responsive {
+    width: 100%;
+  }
+}
+
 .logo-container {
-  margin: 10px 0 6px 0;
-  float: left;
+  margin: 0;
+  text-align: center;
+  padding: 0.1rem;
 }
 
 .logo {
-  width: 64px;
-  height: 64px;
+  width: 100%;
+  height: 100%;  
+}
+
+.title-container {
+  text-align: center;
+  padding: 0 20px 0 20px;
+
+}
+
+.title-container h2 {
+  text-align: center;
+  margin: 0;
+  color: white;
 }
 
 .title {
   font-family: 'IBM Plex Sans', sans-serif;
-  float: left;
-  margin-top: auto;
-  margin-bottom: auto;
-  line-height: 80px;
-  margin-left: 20px;
 }
 
-img.avatar {
-  width: 40%;
-  border-radius: 50%;
+.login-form {
+  margin-top: 3rem;
+
 }
 
-.container {
-  padding: 16px;
+.form-container {
+  padding: 0px;
 }
 
 .footer {
-  display: none;
+  flex-shrink: 0;
+  height: 64px;
+  width:100%;
+  background:rgb(30, 32, 32);
+  color: rgb(255, 255, 255);
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0;
 }
 
-span.psw {
-  float: right;
-  padding-top: 16px;
+.footer-container {
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: 10px;
+  margin-left: 10px;
+  justify-content: space-between;
 }
 
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-    display: block;
-    float: none;
-  }
-  .cancelbtn {
-    width: 100%;
-  }
+.footer-copyright {
+  line-height: 64px; /* footer height */
+}
+
+.footer-copyright p {
+  margin: 0 .5rem 0 .5rem;
+  padding: 0;
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: .8rem;
+}
+.footer-copyright a {
+  color: rgb(255, 255, 255);
 }

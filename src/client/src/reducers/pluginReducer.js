@@ -29,7 +29,6 @@ function onHHMError(state, action) {
         list: action.payload.result || []
       });
     default:
-      console.error(action);
       return state;
   }
 }
@@ -50,7 +49,7 @@ function onHHMResult(state, action) {
 function onHHMEvent(state, action) {
 
   let args = action.payload.args || {};
-  let plugin = args.plugin || {};
+  let plugin = args[0] || {};
   let pluginSpec = plugin.pluginSpec || {};
 
   switch(action.payload.eventType) {

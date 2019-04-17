@@ -5,11 +5,16 @@ import Header from '../../Header';
 import { PlayersCard, RoomInfoCard, PluginsCard } from '../../Cards';
 import PropTypes from 'prop-types';
 import './index.css';
+import backgroundImage from '../../stripes.png';
+
+var style = {
+  backgroundImage: `url(${backgroundImage})`
+};
 
 export default class DashboardView extends Component {
   render() {
     return (
-      <div className="View DashboardView">
+      <div className="View DashboardView"  style={style}>
         <Header 
           title="Dashboard"
           user={this.props.sessionID}
@@ -18,7 +23,7 @@ export default class DashboardView extends Component {
         <Container>
           <Row>
             <Col xs="12" lg="6">
-              <RoomInfoCard roomInfo={this.props.roomInfo} />
+              <RoomInfoCard roomInfo={this.props.roomInfo}/>
             </Col>
             <Col xs="12" lg="6">
               <PlayersCard
@@ -28,6 +33,7 @@ export default class DashboardView extends Component {
                 banPlayer={this.props.banPlayer}
                 adminPlayer={this.props.adminPlayer}
                 unadminPlayer={this.props.unadminPlayer}
+                clearBans={this.props.clearBans}
               />
             </Col>
             <Col xs="12">

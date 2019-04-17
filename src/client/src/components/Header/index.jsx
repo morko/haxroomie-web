@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Collapse,
+  Col,
   Navbar,
   NavbarToggler,
   NavbarBrand,
@@ -55,7 +56,8 @@ class Header extends Component {
     return (
       <header className="Header">
         <Navbar className="Header-navbar" color="dark" dark expand="md">
-          <NavbarBrand href="/"><img src={logo} className="Header-logo" alt="logo" />{this.props.title}</NavbarBrand>
+          <NavbarBrand href="/"><img src={logo} className="Header-logo" alt="logo" /></NavbarBrand>
+          <Col className="d-none d-sm-inline">{this.props.title}</Col>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
