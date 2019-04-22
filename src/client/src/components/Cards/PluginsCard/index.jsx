@@ -11,6 +11,7 @@ import {
   Col,
   Collapse
 } from 'reactstrap';
+import './index.css';
 import DynamicForm from '../../Forms/DynamicForm';
 
 function PluginEnableButton (props) {
@@ -154,10 +155,30 @@ function PluginList(props) {
   });
 
   return (
-    <ListGroup>
+    <ListGroup className="PluginList">
+      <ListGroupItem className="container PluginList-header">
+        <Row>
+          <Col xs="4" md="2">
+            <p>Control</p>
+          </Col>
+          <Col xs="6" md="3">
+            <p>Name</p>
+          </Col>
+        
+          <Col className="d-none d-md-inline"  md="2">
+            <p>Author</p>
+          </Col>
+        
+          <Col className="d-none d-md-inline" md="4">
+            <p>Dependencies</p>
+          </Col>
+  
+          <Col xs="2" md="1">
+          </Col>
+        </Row>
+      </ListGroupItem>
       {pluginRows}
     </ListGroup>
-
   )
 }
 
