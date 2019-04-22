@@ -369,7 +369,6 @@ export default class OpenRoomForm extends React.Component {
           hhmConfigFile={this.state.hhmConfigFile}
           repository={this.state.repository}
           pluginConfig={this.state.pluginConfig}
-          isOpen={this.state.roomScript || this.state.hhmConfigFile || this.state.repository}
         />
 
       </Form>
