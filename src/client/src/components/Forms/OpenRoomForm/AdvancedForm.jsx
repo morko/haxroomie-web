@@ -61,7 +61,7 @@ export default class AdvancedForm extends React.Component {
     this.state = {
       isOpen: this.props.isOpen,
       hhmConfigFile: this.props.hhmConfigFile,
-      pluginFile: this.props.pluginFile,
+      roomScript: this.props.roomScript,
       repository: this.props.repository,
       pluginConfig: this.props.pluginConfig
     };
@@ -84,7 +84,7 @@ export default class AdvancedForm extends React.Component {
     this.setState({ 
       isOpen: this.props.isOpen,
       hhmConfigFile: this.props.hhmConfigFile,
-      pluginFile: this.props.pluginFile,
+      roomScript: this.props.roomScript,
       repository: this.props.repository,
       pluginConfig: this.props.pluginConfig
     });

@@ -12,7 +12,7 @@ let defaultState = {
     adminPassword: '',
     token: '',
     hhmConfigFile: null,
-    pluginFile: null,
+    roomScript: null,
     repositories: [],
     pluginConfig: {
       'sav/commands': {

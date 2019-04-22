@@ -76,7 +76,7 @@ export default class OpenRoomForm extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFileInputChange = this.handleFileInputChange.bind(this);
-    this.handlePluginFileClear = this.handlePluginFileClear.bind(this);
+    this.handleroomScriptClear = this.handleroomScriptClear.bind(this);
     this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
     this.handlePluginConfigChange = this.handlePluginConfigChange.bind(this);
     this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
@@ -187,8 +187,8 @@ export default class OpenRoomForm extends React.Component {
     );
   }
 
-  handlePluginFileClear(event) {
-    this.setState({ pluginFile: null });
+  handleroomScriptClear(event) {
+    this.setState({ roomScript: null });
     event.target.files = [];
   }
 
@@ -292,16 +292,16 @@ export default class OpenRoomForm extends React.Component {
         </FormTextRow>
 
         <FormGroup>
-          <Label for="pluginFile"><FontAwesomeIcon icon="plug" size="2x" /> Script/plugin</Label>
+          <Label for="roomScript"><FontAwesomeIcon icon="plug" size="2x" /> Script/plugin</Label>
           <InputGroup>
             <CustomInput
               type="file"
-              name="pluginFile"
-              id="pluginFile"
-              label={ this.state.pluginFile && this.state.pluginFile.name }
+              name="roomScript"
+              id="roomScript"
+              label={ this.state.roomScript && this.state.roomScript.name }
               onChange={this.handleFileInputChange} />
             <InputGroupAddon addonType="append">
-              <Button onClick={this.handlePluginFileClear}>Clear</Button>
+              <Button onClick={this.handleroomScriptClear}>Clear</Button>
             </InputGroupAddon>
           </InputGroup>
         </FormGroup>
@@ -365,11 +365,11 @@ export default class OpenRoomForm extends React.Component {
           handleFileInputChange={this.handleFileInputChange}
           handleRepositoryChange={this.handleRepositoryChange}
           handlePluginConfigChange={this.handlePluginConfigChange}
-          pluginFile={this.state.pluginFile}
+          roomScript={this.state.roomScript}
           hhmConfigFile={this.state.hhmConfigFile}
           repository={this.state.repository}
           pluginConfig={this.state.pluginConfig}
-          isOpen={this.state.pluginFile || this.state.hhmConfigFile || this.state.repository}
+          isOpen={this.state.roomScript || this.state.hhmConfigFile || this.state.repository}
         />
 
       </Form>
