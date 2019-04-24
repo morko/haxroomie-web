@@ -26,9 +26,10 @@ let config = {
     /*
      * Port that the express server listens to for incoming HTTP connections.
      */
-    port: process.env.PORT || 3055,
+    port: 3055,
     /*
-     * Absolute path to the sqlite storage file.
+     * Absolute path to the sqlite storage file. Will be created if it does not
+     * exist.
      */
     storage: path.resolve(path.join(__dirname, 'storage.sqlite')),
     /*
@@ -45,13 +46,15 @@ let config = {
     /*
      * Account details for the default user. Note that it is not recommended
      * to create the account here because the password is stored here in
-     * clear text. You can use e.g. the user.js script to modify user
+     * clear text. You can use the user.js script to add/modify user
      * accounts.
      */
+    /*
     user: {
        name: 'haxroomie',
        password: 'haxroomie'
      }
+    */
   }
 }
 
