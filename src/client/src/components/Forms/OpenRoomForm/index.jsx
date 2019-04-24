@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AdvancedForm from './AdvancedForm';
 import './index.css';
+import RepositoryField from './RepositoryField';
 
 function FormTextRow(props) {
   let name = props.name;
@@ -77,10 +78,8 @@ export default class OpenRoomForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFileInputChange = this.handleFileInputChange.bind(this);
     this.handleroomScriptClear = this.handleroomScriptClear.bind(this);
-    this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
     this.handlePluginConfigChange = this.handlePluginConfigChange.bind(this);
     this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
-    this.handleRepositoryClear = this.handleRepositoryClear.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -135,47 +134,13 @@ export default class OpenRoomForm extends React.Component {
     fileReader.readAsText(file);
   }
 
-  handleRepositoryChange(event) {
-    let repo = event.target.value;
-
+  handleRepositoryChange(repositories) {
     this.setState(prevState =>
       ({
-        repositories: [repo || undefined],
-        reposError: '',
+        repositories: repositories,
       }),
       () => this.props.saveConfig(this.state)
     );
-
-    if (repo !== '' && !this.validURL(repo)) {
-      this.setState(prevState =>
-        ({
-          reposError: 'Not a valid URL.',
-        }),
-        () => this.props.saveConfig(this.state)
-      );
-    }
-
-  }
-    
-  handleRepositoryClear(event) {
-    this.setState({ repositories: [] });
-    event.target.value = '';
-  }
-
-  /**
-   * Checks if the given string is a valid URL.
-   * Source is from http://forums.devshed.com/javascript-development-115/regexp-match-url-pattern-493764.html
-   * 
-   * @param {string} str - url
-   */
-  validURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-    return !!pattern.test(str);
   }
 
   handlePluginConfigChange(event) {
@@ -291,8 +256,14 @@ export default class OpenRoomForm extends React.Component {
           above.
         </FormTextRow>
 
+        <RepositoryField
+          handleRepositoryChange={this.handleRepositoryChange}
+          repositories={this.state.repositories}>
+        </RepositoryField>
+
+
         <FormGroup>
-          <Label for="roomScript"><FontAwesomeIcon icon="plug" size="2x" /> Script/plugin</Label>
+          <Label for="roomScript"><FontAwesomeIcon icon="plug" size="2x" /> Room script</Label>
           <InputGroup>
             <CustomInput
               type="file"
@@ -310,40 +281,11 @@ export default class OpenRoomForm extends React.Component {
           <Col sm="12">
             <FormText>
               Can be a regular regular room script for headless haxball or a HHM plugin.
-              See <a href="https://github.com/saviola777/haxball-headless-manager/wiki"
+              See <a href="https://github.com/saviola777/haxball-headless-manager"
               target="_blank" rel="noopener noreferrer">
-              saviolas Haxball Headless Manager wiki</a> for information
+              saviolas Haxball Headless Manager</a> for information
               about the scripts/plugins. If you want to use multiple plugins
               you need to setup a plugin repository.
-            </FormText>
-          </Col>
-        </FormGroup>
-
-
-        <FormGroup>
-          <Label for="repository"><FontAwesomeIcon icon="list" size="2x" /> Custom HHM repository</Label>
-          <InputGroup>
-            <Input
-              type="text"
-              name="repository"
-              id="repository"
-              invalid={this.state.reposError ? true : false}
-              value={this.state.repositories[0]}
-              onChange={this.handleRepositoryChange} />
-            <InputGroupAddon addonType="append">
-              <Button onClick={this.handleRepositoryClear}>Clear</Button>
-            </InputGroupAddon>
-          </InputGroup>
-        </FormGroup>
-
-        <FormGroup row>
-          <Col sm="12">
-            <FormText>
-              Here you can give the URL to Haxball Headless Manager repository
-              See <a href="https://github.com/saviola777/haxball-headless-manager/wiki"
-              target="_blank" rel="noopener noreferrer">
-              saviolas Haxball Headless Manager wiki</a> for information
-              about the repositories.
             </FormText>
           </Col>
         </FormGroup>
@@ -367,7 +309,6 @@ export default class OpenRoomForm extends React.Component {
           handlePluginConfigChange={this.handlePluginConfigChange}
           roomScript={this.state.roomScript}
           hhmConfigFile={this.state.hhmConfigFile}
-          repository={this.state.repository}
           pluginConfig={this.state.pluginConfig}
         />
 

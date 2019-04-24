@@ -62,7 +62,6 @@ export default class AdvancedForm extends React.Component {
       isOpen: this.props.isOpen,
       hhmConfigFile: this.props.hhmConfigFile,
       roomScript: this.props.roomScript,
-      repository: this.props.repository,
       pluginConfig: this.props.pluginConfig
     };
 
@@ -85,7 +84,6 @@ export default class AdvancedForm extends React.Component {
       isOpen: this.props.isOpen,
       hhmConfigFile: this.props.hhmConfigFile,
       roomScript: this.props.roomScript,
-      repository: this.props.repository,
       pluginConfig: this.props.pluginConfig
     });
   }
@@ -129,8 +127,8 @@ export default class AdvancedForm extends React.Component {
               Allows you to pass configurations to plugins. You can not use the
               <code> haxroomie</code> object inside this. The <code>haxroomie </code>
               object can be only accessed inside custom HHM config.
-              See <a href="https://github.com/saviola777/haxball-headless-manager/wiki"
-              target="_blank" rel="noopener noreferrer">saviolas Haxball Headless Manager wiki </a> 
+              See <a href="https://github.com/saviola777/haxball-headless-manager"
+              target="_blank" rel="noopener noreferrer">saviolas Haxball Headless Manager </a> 
               for more information.
             </FormText>
             <div className="PluginConfigField">
@@ -148,7 +146,7 @@ export default class AdvancedForm extends React.Component {
           </FormGroup>
 
           <FormGroup>
-            <Label for="hhmConfigFile"><FontAwesomeIcon icon="edit" size="2x" /> Custom HHM config</Label>
+            <Label for="hhmConfigFile"><FontAwesomeIcon icon="edit" size="2x" /> HHM config</Label>
             <InputGroup>
               <CustomInput
                 type="file"
@@ -167,7 +165,7 @@ export default class AdvancedForm extends React.Component {
               <FormText>
                 See <a href="https://github.com/saviola777/haxball-headless-manager"
                 target="_blank" rel="noopener noreferrer">
-                saviolas Haxball Headless Manager repository</a> for information
+                saviolas Haxball Headless Manager</a> for information
                 about the HHM config.
               </FormText>
             </Col>

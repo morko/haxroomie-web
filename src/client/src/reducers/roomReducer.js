@@ -13,7 +13,7 @@ let defaultState = {
     token: '',
     hhmConfigFile: null,
     roomScript: null,
-    repositories: [],
+    repositories: [ '' ],
     pluginConfig: {
       'sav/commands': {
         'commandPrefix': '!',
