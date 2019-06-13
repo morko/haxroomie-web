@@ -17,7 +17,7 @@ export default class DashboardView extends Component {
       <div className="View DashboardView"  style={style}>
         <Header 
           title="Dashboard"
-          user={this.props.sessionID}
+          userProfile={this.props.userProfile}
           closeRoom={this.props.closeRoom}
           />
         <Container>
@@ -55,6 +55,6 @@ DashboardView.propTypes = {
   getPlayers: PropTypes.func,
   roomInfo: PropTypes.object,
   closeRoom: PropTypes.func,
-  sessionID: PropTypes.string,
+  userProfile: PropTypes.object,
   playerList: PropTypes.array
 }

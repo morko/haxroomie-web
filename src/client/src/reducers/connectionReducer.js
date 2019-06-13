@@ -5,7 +5,7 @@ import {
 
 let defaultState = {
   socket: null,
-  sessionID: null,
+  userProfile: null,
 }
 
 function connection(state = defaultState, action) {
@@ -17,11 +17,15 @@ function connection(state = defaultState, action) {
     case SOCKET_DISCONNECTED:
       return Object.assign({}, state, {
         socket: null,
-        sessionID: null
+        userProfile: null
       });
-    case 'CLIENT_CONNECTED':
+    case 'ROOM_CONNECTED':
       return Object.assign({}, state, {
-        sessionID: action.sender
+        userProfile: action.payload.userProfile
+      });
+    case 'ROOM_DISCONNECTED':
+      return Object.assign({}, state, {
+        userProfile: null
       });
     default:
       return state;

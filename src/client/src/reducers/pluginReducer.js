@@ -7,21 +7,21 @@ function plugin(state = defaultState, action) {
 
   switch (action.type) {
 
-    case 'CALL_HHM_RESULT':
-      return onHHMResult(state, action);
+    case 'CALL_ROOM_CONTROLLER_RESULT':
+      return onResult(state, action);
 
-    case 'CALL_HHM_ERROR':
-      return onHHMError(state, action);
+    case 'CALL_ROOM_CONTROLLER_ERROR':
+      return onError(state, action);
 
-    case 'HHM_EVENT':
-      return onHHMEvent(state, action)
+    case 'PLUGIN_EVENT':
+      return onPluginEvent(state, action)
 
     default:
       return state;
   }
 }
 
-function onHHMError(state, action) {
+function onError(state, action) {
   switch (action.payload.fn) {
     case 'getPlugins':
       return Object.assign({}, state, {
@@ -33,7 +33,7 @@ function onHHMError(state, action) {
   }
 }
 
-function onHHMResult(state, action) {
+function onResult(state, action) {
 
   switch (action.payload.fn) {
     case 'getPlugins':
@@ -46,11 +46,10 @@ function onHHMResult(state, action) {
   }
 }
 
-function onHHMEvent(state, action) {
+function onPluginEvent(state, action) {
 
-  let args = action.payload.args || {};
-  let plugin = args[0] || {};
-  let pluginSpec = plugin.pluginSpec || {};
+  let pluginData = action.payload.pluginData || {};
+  let pluginSpec = pluginData.pluginSpec || {};
 
   switch(action.payload.eventType) {
 

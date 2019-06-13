@@ -1,6 +1,6 @@
 const path = require('path');
 const server = require('./server');
-const HaxroomieClient = require('./HaxroomieClient');
+const RoomSocket = require('./RoomSocket');
 const logger = require('./logging').logger;
 
 module.exports = class Server {
@@ -74,18 +74,26 @@ module.exports = class Server {
 
       //  get the user from session
       let userProfile = await this._getUserProfileFromSocketSession(socket);
-      if (!userProfile) return; // stop if user profile was not found
+       // stop if user profile was not found
+      if (!userProfile) {
+        logger.debug(`INVALID_SOCKET_USER`);
+        return;
+      }
 
       logger.debug(
         `SOCKET_CONNECTION ${socket.id} ${JSON.stringify(userProfile)}`
       );
-      // create the HaxroomieClient object and connect to the Haxroomie session
-      let client = new HaxroomieClient(socket, userProfile);
-      client.connectToSession(this.haxroomie);
+      // create the RoomSocket object and connect to the Haxroomie session
+      let roomSocket = new RoomSocket({
+        socket: socket,
+        userProfile: userProfile,
+        haxroomie: this.haxroomie
+      });
+      await roomSocket.start();
 
-      socket.on('disconnect', () => {
+      socket.on('disconnect', async () => {
         logger.debug(`SOCKET ${socket.id} DISCONNECTED`);
-        client.disconnectFromSession();
+        await roomSocket.stop();
       });
     });
   }

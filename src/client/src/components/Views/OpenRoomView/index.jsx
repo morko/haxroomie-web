@@ -16,7 +16,7 @@ export default class OpenRoomView extends React.Component {
       <div className="View OpenRoomView">
         <Header 
           title="Room Settings"
-          user={this.props.sessionID}
+          userProfile={this.props.userProfile}
         />
         <Container>
           <Row>

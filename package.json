@@ -28,7 +28,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "express-winston": "^3.0.0",
-    "haxroomie": "github:morko/haxroomie",
+    "haxroomie": "github:morko/haxroomie#1.0.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "sequelize": "^4.38.0",

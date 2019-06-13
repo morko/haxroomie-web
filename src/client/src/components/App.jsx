@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { this.props.sessionID ? '' : <LoadingOverlay text="Connecting..."/> }
+        { this.props.userProfile ? '' : <LoadingOverlay text="Connecting..."/> }
         { this.props.openRoomInProcess ? <LoadingOverlay text="Opening the room..."/> : ''}
         { 
           this.props.roomInfo 

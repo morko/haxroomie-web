@@ -6,7 +6,7 @@ import { openSocket } from '../actions/connectionActions';
 
 function mapStateToProps(state, ownProps) {
   return {
-    sessionID: state.connection.sessionID,
+    userProfile: state.connection.userProfile,
     roomInfo: state.room.roomInfo,
     openRoomInProcess: state.room.openRoomInProcess,
 

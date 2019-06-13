@@ -49,12 +49,10 @@ let config = {
      * clear text. You can use the user.js script to add/modify user
      * accounts.
      */
-    /*
     user: {
        name: 'haxroomie',
        password: 'haxroomie'
      }
-    */
   }
 }
 

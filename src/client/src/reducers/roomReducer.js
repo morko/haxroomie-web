@@ -2,6 +2,9 @@ let defaultState = {
   roomInfo: null,
   openRoomInProcess: false,
   openRoomError: '',
+  closeRoomError: '',
+  pageClosedError: '',
+  pageCrashedError: '',
   roomConfig: {
     roomName: 'haxroomie',
     playerName: 'host',
@@ -11,9 +14,9 @@ let defaultState = {
     hostPassword: '',
     adminPassword: '',
     token: '',
-    hhmConfigFile: null,
+    hhmConfig: null,
     roomScript: null,
-    repositories: [ '' ],
+    repositories: [],
     pluginConfig: {
       'sav/commands': {
         'commandPrefix': '!',
@@ -27,35 +30,47 @@ function room(state = defaultState, action) {
 
   switch (action.type) {
 
+    case 'ROOM_CONNECTED':
+      newState.roomInfo = action.payload.roomInfo;
+      return newState;
+
+    case 'PAGE_CLOSED':
+      newState.openRoomInProcess = false;
+      newState.roomInfo = null;
+      newState.pageClosedError = action.payload.error.msg;
+      return newState;
+
+    case 'PAGE_CRASHED':
+      newState.openRoomInProcess = false;
+      newState.roomInfo = null;
+      newState.pageCrashedError = action.payload.error.msg;
+      return newState;
+
     case 'OPEN_ROOM_START':
+      clearErrors(newState);
       newState.openRoomInProcess = true;
-      if (action.error) {
-        newState.openRoomInProcess = false;
-        newState.openRoomError = action.payload;
-      }
       return newState;
 
     case 'OPEN_ROOM_STOP':
       newState.openRoomInProcess = false;
-
-      if (action.error) {
-        newState.openRoomError = action.payload;
-        return newState;
-      }
-      newState.roomInfo = action.payload.roomInfo;
-      newState.openRoomError = null;
-      return newState;
-    
-    case 'CLIENT_CONNECTED':
       newState.roomInfo = action.payload.roomInfo;
       return newState;
 
-    case 'ROOM_CLOSED':
+    case 'OPEN_ROOM_ERROR':
+      newState.openRoomInProcess = false;
+      newState.openRoomError = action.payload.error.msg;
+      return newState;
+
+    case 'CLOSE_ROOM':
+      clearErrors(newState);
       newState.roomInfo = null;
       newState.openRoomInProcess = false;
-      newState.openRoomError = null;
       return newState;
-
+    
+    case 'CLOSE_ROOM_ERROR':
+      newState.closeRoomError = action.payload.error.msg;
+      return newState;
+  
     case 'SAVE_CONFIG':
       newState.roomConfig = action.payload.roomConfig;
       return newState;
@@ -64,5 +79,13 @@ function room(state = defaultState, action) {
       return state;
   }
 }
+
+function clearErrors(state) {
+  state.openRoomError = '';
+  state.closeRoomError = '';
+  state.pageClosedError = '';
+  state.pageCrashedError = '';
+}
+
 
 export default room;

@@ -3,12 +3,11 @@ export function getPlugins() {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
-      type: 'CALL_HHM',
+    socket.emit('client-action', {
+      type: 'CALL_ROOM_CONTROLLER',
       payload: {
         fn: 'getPlugins'
       },
-      sender: socket.id
     });
   }
 }
@@ -18,13 +17,12 @@ export function enablePlugin(name) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
-      type: 'CALL_HHM',
+    socket.emit('client-action', {
+      type: 'CALL_ROOM_CONTROLLER',
       payload: {
         fn: 'enablePlugin',
         args: [name]
       },
-      sender: socket.id
     });
   }
 }
@@ -34,13 +32,12 @@ export function disablePlugin(name) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
-      type: 'CALL_HHM',
+    socket.emit('client-action', {
+      type: 'CALL_ROOM_CONTROLLER',
       payload: {
         fn: 'disablePlugin',
         args: [name]
       },
-      sender: socket.id
     });
   }
 }

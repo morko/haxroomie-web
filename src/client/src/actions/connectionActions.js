@@ -31,8 +31,8 @@ export function openSocket() {
       dispatch(socketDisconnected());
     });
     // dispatch everything from the haxroomie as actions
-    socket.on('haxroomie-message', (message) => {
-      dispatch(message);
+    socket.on('server-action', (action) => {
+      dispatch(action);
     });
     socket.open();
   }

@@ -66,16 +66,3 @@ Accounts can be added, removed and updated with the `user.js` script located in 
 node user.js --help
 ```
 to see available commands.
-
-## Running own room scripts
-
-Haxroomie supports running your own scripts or [Haxball Headless Manager (HHM)](https://github.com/saviola777/haxball-headless-manager) plugins. Just add them in the open room forms advanced sections "Plugins" field. 
-
-You can even give Haxroomie your own HHM configuration that is used to start the room and setup plugin repositories if you wish. However, using your own HHM configuration makes the open room forms other fields like "Room name" not respected if it is not created as explained in https://github.com/morko/haxroomie#cli-usage.
-
-**THE MOST IMPORTANT THING IS THAT THE HHM CONFIG FILES HHM.config PROPERTY HAS A `token` PROPERTY LIKE THIS:**
-```
-HHM.config.room = {
-  token: haxroomie.token
-}
-```

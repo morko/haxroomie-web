@@ -15,6 +15,8 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import JSONInput from 'react-json-editor-ajrm';
+import locale from 'react-json-editor-ajrm/locale/en';
 import AdvancedForm from './AdvancedForm';
 import './index.css';
 import RepositoryField from './RepositoryField';
@@ -81,6 +83,20 @@ export default class OpenRoomForm extends React.Component {
     this.handlePluginConfigChange = this.handlePluginConfigChange.bind(this);
     this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+
+    this.pluginConfigColors = {
+      default: '#444444',
+      error: '#FA1111',
+      background: '#FCFDFD',
+      background_warning: '#FEECEB',
+      string: '#FA7921',
+      number: '#70CE35',
+      colon: '#49B8F7',
+      keys: '#59A5D8',
+      keys_whiteSpace: '835FB6',
+      primitive: '#386FA4'
+    }
   }
 
   componentDidMount() {
@@ -134,11 +150,39 @@ export default class OpenRoomForm extends React.Component {
     fileReader.readAsText(file);
   }
 
+  parseUrlToRepository(url) {
+    let urlParts = url.split(`/`);
+    let repository = url;
+
+    if (urlParts <= 2) return repository;
+
+    if (urlParts[2] === `github.com`) {
+      repository = {
+        type: `github`,
+        repository: `${urlParts[3]}/${urlParts[4]}`
+      }
+      if (urlParts.length > 6) {
+        repository.branch = urlParts[6];
+      }
+      if (urlParts.length > 7) {
+        repository.path = urlParts[7];
+      }
+    } else {
+      repository = { url: url };
+    }
+    return repository;
+  }
+
   handleRepositoryChange(repositories) {
     this.setState(prevState =>
-      ({
-        repositories: repositories,
-      }),
+      {
+        const repos = repositories.map((repo) => {
+          return this.parseUrlToRepository(repo);
+        });
+        return { 
+          repositories: repos
+        };
+      },
       () => this.props.saveConfig(this.state)
     );
   }
@@ -263,6 +307,30 @@ export default class OpenRoomForm extends React.Component {
 
 
         <FormGroup>
+          <Label for="pluginConfigJSON"><FontAwesomeIcon icon="plug" size="2x" /> Plugin config</Label>
+          <FormText>
+            Define which plugins to load from the available repositories 
+            and what options to give them.
+            See <a href="https://github.com/morko/hhm-sala-plugins#hhm-sala-plugins"
+            target="_blank" rel="noopener noreferrer">
+            my plugin repository</a> for examples of configurations for
+            plugins.
+          </FormText>
+          <div className="PluginConfigField">
+            <JSONInput
+              id = "pluginConfigJSON"
+              colors = { this.pluginConfigColors }
+              placeholder = { this.state.pluginConfig }
+              locale = { locale }
+              height = "400px"
+              width = "100%"
+              onChange = { this.handlePluginConfigChange }
+            />
+          </div>
+
+        </FormGroup>
+
+        <FormGroup>
           <Label for="roomScript"><FontAwesomeIcon icon="plug" size="2x" /> Room script</Label>
           <InputGroup>
             <CustomInput
@@ -280,12 +348,8 @@ export default class OpenRoomForm extends React.Component {
         <FormGroup row>
           <Col sm="12">
             <FormText>
-              Can be a regular regular room script for headless haxball or a HHM plugin.
-              See <a href="https://github.com/saviola777/haxball-headless-manager"
-              target="_blank" rel="noopener noreferrer">
-              saviolas Haxball Headless Manager</a> for information
-              about the scripts/plugins. If you want to use multiple plugins
-              you need to setup a plugin repository.
+              Use this if you want to run a regular HaxBall room script.
+              <b>Disables plugins.</b>
             </FormText>
           </Col>
         </FormGroup>
@@ -305,11 +369,8 @@ export default class OpenRoomForm extends React.Component {
 
         <AdvancedForm 
           handleFileInputChange={this.handleFileInputChange}
-          handleRepositoryChange={this.handleRepositoryChange}
-          handlePluginConfigChange={this.handlePluginConfigChange}
           roomScript={this.state.roomScript}
-          hhmConfigFile={this.state.hhmConfigFile}
-          pluginConfig={this.state.pluginConfig}
+          hhmConfig={this.state.hhmConfig}
         />
 
       </Form>

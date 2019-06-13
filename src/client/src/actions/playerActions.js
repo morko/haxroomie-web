@@ -4,12 +4,11 @@ export function getPlayers() {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
+    socket.emit('client-action', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'getPlayerList'
       },
-      sender: socket.id
     });
   }
 }
@@ -20,13 +19,12 @@ export function kickPlayer(id, reason = 'Bye!') {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
+    socket.emit('client-action', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'kickPlayer',
         args: [id, reason, false]
       },
-      sender: socket.id
     });
   }
 }
@@ -37,13 +35,12 @@ export function banPlayer(id, reason = 'Bye!') {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
+    socket.emit('client-action', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'kickPlayer',
         args: [id, reason, true]
       },
-      sender: socket.id
     });
   }
 }
@@ -54,13 +51,12 @@ export function adminPlayer(id) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
+    socket.emit('client-action', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'setPlayerAdmin',
         args: [id, true]
       },
-      sender: socket.id
     });
   }
 }
@@ -71,13 +67,12 @@ export function unadminPlayer(id) {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
+    socket.emit('client-action', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'setPlayerAdmin',
         args: [id, false]
       },
-      sender: socket.id
     });
   }
 }
@@ -88,12 +83,11 @@ export function clearBans() {
     let socket = getState().connection.socket;
     if (!socket) return;
 
-    socket.emit('send-haxroomie', {
+    socket.emit('client-action', {
       type: 'CALL_ROOM',
       payload: {
         fn: 'clearBans'
       },
-      sender: socket.id
     });
   }
 }

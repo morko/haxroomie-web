@@ -11,7 +11,7 @@ import {
 import './index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export default class RepositoryField extends React.Component {
+export default class Repositories extends React.Component {
 
   constructor(props) {
     super(props);
@@ -21,7 +21,7 @@ export default class RepositoryField extends React.Component {
     }
     this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
     this.handleAddRepository = this.handleAddRepository.bind(this);
-    this.createRepositoryFields = this.createRepositoryFields.bind(this);
+    this.createRepositories = this.createRepositories.bind(this);
 
   }
 
@@ -42,7 +42,9 @@ export default class RepositoryField extends React.Component {
   }
 
   handleRepositoryChange(newRepo, i) {
-    if (!this.validURL(newRepo)) {
+    let isValidRepo = this.validURL(newRepo);
+    
+    if (!isValidRepo) {
       this.setState(prevState =>
         ({
           repoErrors: { ...prevState.repoErrors, [i]: 'Not a valid URL.' }
@@ -87,7 +89,7 @@ export default class RepositoryField extends React.Component {
     }, () => this.props.handleRepositoryChange(this.state.repositories));
   }
     
-  createRepositoryFields(repositories) {
+  createRepositories(repositories) {
     return repositories.map((repo, i) => {
       return (
         <FormGroup key={i}>
@@ -110,7 +112,7 @@ export default class RepositoryField extends React.Component {
 
   render() {
 
-    let repos = this.createRepositoryFields(this.state.repositories);
+    let repos = this.createRepositories(this.state.repositories);
 
     return (
       <div>
@@ -124,11 +126,10 @@ export default class RepositoryField extends React.Component {
         <FormGroup row>
           <Col sm="12">
             <FormText>
-              Here you can give the URLs to Haxball Headless Manager repositories
+              Define which plugin repositories to load.
               See <a href="https://github.com/saviola777/haxball-headless-manager"
               target="_blank" rel="noopener noreferrer">
-              saviolas Haxball Headless Manager</a> for information
-              about the repositories.
+              HHM docs</a> for information about creating own repositories.
             </FormText>
           </Col>
         </FormGroup>

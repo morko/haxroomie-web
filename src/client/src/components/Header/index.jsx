@@ -74,11 +74,11 @@ class Header extends Component {
               </NavItem>
             }
 
-            {this.props.user &&
+            {this.props.userProfile &&
               <UncontrolledDropdown nav inNavbar>
                 <div className="Header-user btn btn-outline-secondary">
                   <DropdownToggle nav caret>
-                    {this.props.user}
+                    {this.props.userProfile.name}
                   </DropdownToggle>
                 </div>
                 <DropdownMenu right>
@@ -118,7 +118,7 @@ Header.propTypes = {
   // text to show on the loading overlay
   closeRoom: PropTypes.func,
   // user menu name
-  user: PropTypes.string,
+  userProfile: PropTypes.object,
 
 }
 

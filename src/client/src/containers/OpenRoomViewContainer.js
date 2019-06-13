@@ -4,7 +4,7 @@ import { openRoom, saveConfig } from '../actions/roomActions';
 
 function mapStateToProps(state, ownProps) {
   return {
-    sessionID: state.connection.sessionID,
+    userProfile: state.connection.userProfile,
     room: state.room
   }
 }

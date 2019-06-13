@@ -1,4 +1,5 @@
 const logger = require('./src/logging').logger;
+const { createHaxroomie } = require('haxroomie');
 
 process.on(`unhandledRejection`, (error, p) => {
   logger.error(`Unhandled Promise Rejection:\n${error.stack}`);
@@ -36,11 +37,10 @@ const argv = require(`yargs`)
 
   let cfg = parseConfig(config);
 
-  const haxroomie = new Haxroomie({
+  const haxroomie = await createHaxroomie({
     headless: !cfg.window,
     port: argv.haxroomiePort
   });
-  await haxroomie.createBrowser();
 
   const server = new HRWebServer({
     haxroomie: haxroomie,

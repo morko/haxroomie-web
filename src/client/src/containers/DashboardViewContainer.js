@@ -18,7 +18,7 @@ import {
 
 function mapStateToProps(state, ownProps) {
     return {
-      sessionID: state.connection.sessionID,
+      userProfile: state.connection.userProfile,
       roomInfo: state.room.roomInfo,
       playerList: state.player.list,
       pluginList: state.plugin.list
