@@ -12,14 +12,14 @@ import {
   Input,
   Alert,
   FormText
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import JSONInput from 'react-json-editor-ajrm';
-import locale from 'react-json-editor-ajrm/locale/en';
-import AdvancedForm from './AdvancedForm';
-import './index.css';
-import Repositories from './Repositories';
+} from "reactstrap";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import JSONInput from "react-json-editor-ajrm";
+import locale from "react-json-editor-ajrm/locale/en";
+import AdvancedForm from "./AdvancedForm";
+import "./index.css";
+import Repositories from "./Repositories";
 
 function FormTextRow(props) {
   let name = props.name;
@@ -72,6 +72,8 @@ function FormTextRow(props) {
 
 export default class OpenRoomForm extends React.Component {
   // List of countries and codes from here: https://gist.github.com/maephisto/9228207
+  defaultGeo = { code: "eu", lat: "0.0000", lon: "0.0000" };
+
   isoCountries = {
     AF: "Afghanistan",
     AX: "Aland Islands",
@@ -364,11 +366,18 @@ export default class OpenRoomForm extends React.Component {
 
   createCountryCodeOptions() {
     let options = [];
+    options.push(
+      <option key="default" value="default">
+        Default
+      </option>
+    );
     for (var code in this.isoCountries) {
       if (this.isoCountries.hasOwnProperty(code)) {
         let lowercase = code.toLowerCase();
         options.push(
-          <option key={lowercase} value={lowercase} data-key={lowercase}>{this.isoCountries[code]}</option>
+          <option key={lowercase} value={lowercase}>
+            {this.isoCountries[code]}
+          </option>
         );
       }
     }
@@ -382,22 +391,34 @@ export default class OpenRoomForm extends React.Component {
 
     let value = target.type === "checkbox" ? target.checked : target.value;
     if (name === "token") value = this.trimToken(value);
-    
+
     this.setState({ [name]: value }, () => this.props.saveConfig(this.state));
   }
 
   handleGeoChange(event) {
     const target = event.target;
     const name = target.name;
-    console.log(target);
-  
+
     let value = target.value;
-    if (name === "code") value = target.options[target.options.selectedIndex].getAttribute('data-key');
+    if (name === "code")
+      value = target.options[target.options.selectedIndex].getAttribute(
+        "value"
+      );
+
+    let geo = undefined;
+    if (value !== "default") {
+      geo = this.state.geo;
+      if (geo === undefined) geo = {};
+      geo[name] = value;
+      if (geo.lat === undefined) geo.lat = this.defaultGeo.lat;
+      if (geo.lon === undefined) geo.lon = this.defaultGeo.lon;
+      if (geo.code === undefined) geo.code = this.defaultGeo.code;
+    }
 
     this.setState(
       prevState => ({
         ...prevState,
-        geo: { ...prevState.geo, [name]: value }
+        geo: geo
       }),
       () => this.props.saveConfig(this.state)
     );
@@ -545,7 +566,7 @@ export default class OpenRoomForm extends React.Component {
               type="select"
               name="code"
               className="countryCode"
-              value={this.state.geo.code}
+              value={this.state.geo ? this.state.geo.code : "Default"}
               onChange={this.handleGeoChange}
             >
               {this.createCountryCodeOptions()}
@@ -557,7 +578,7 @@ export default class OpenRoomForm extends React.Component {
               label="Latitude"
               name="lat"
               placeholder="Latitude"
-              value={this.state.geo.lat}
+              value={this.state.geo ? this.state.geo.lat : ""}
               onChange={this.handleGeoChange}
             />
           </Col>
@@ -567,7 +588,7 @@ export default class OpenRoomForm extends React.Component {
               label="Longitude"
               name="lon"
               placeholder="Longitude"
-              value={this.state.geo.lon}
+              value={this.state.geo ? this.state.geo.lon : ""}
               onChange={this.handleGeoChange}
             />
           </Col>
@@ -576,7 +597,10 @@ export default class OpenRoomForm extends React.Component {
         <FormGroup row className="Form-explanation">
           <Col sm="3" />
           <Col sm="9">
-            <FormText>Set the country, latitude and longitude, independently. <a href="https://www.latlong.net/">latlong.net</a></FormText>
+            <FormText>
+              Override the country, latitude and longitude.{" "}
+              <a href="https://www.latlong.net/">latlong.net</a>
+            </FormText>
           </Col>
         </FormGroup>
 
@@ -629,9 +653,8 @@ export default class OpenRoomForm extends React.Component {
 
         <Repositories
           handleRepositoryChange={this.handleRepositoryChange}
-          repositories={this.state.repositories}>
-        </Repositories>
-
+          repositories={this.state.repositories}
+        />
 
         <FormGroup>
           <Label for="pluginConfigJSON">
