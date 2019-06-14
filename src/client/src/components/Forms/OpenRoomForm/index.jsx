@@ -12,14 +12,14 @@ import {
   Input,
   Alert,
   FormText
-} from "reactstrap";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import JSONInput from "react-json-editor-ajrm";
-import locale from "react-json-editor-ajrm/locale/en";
-import AdvancedForm from "./AdvancedForm";
-import "./index.css";
-import RepositoryField from "./RepositoryField";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import JSONInput from 'react-json-editor-ajrm';
+import locale from 'react-json-editor-ajrm/locale/en';
+import AdvancedForm from './AdvancedForm';
+import './index.css';
+import Repositories from './Repositories';
 
 function FormTextRow(props) {
   let name = props.name;
@@ -627,10 +627,11 @@ export default class OpenRoomForm extends React.Component {
           and insert it above.
         </FormTextRow>
 
-        <RepositoryField
+        <Repositories
           handleRepositoryChange={this.handleRepositoryChange}
-          repositories={this.state.repositories}
-        />
+          repositories={this.state.repositories}>
+        </Repositories>
+
 
         <FormGroup>
           <Label for="pluginConfigJSON">

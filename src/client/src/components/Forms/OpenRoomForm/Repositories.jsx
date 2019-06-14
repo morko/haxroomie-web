@@ -17,12 +17,31 @@ export default class Repositories extends React.Component {
     super(props);
     this.state = {
       repoErrors: {},
-      repositories: this.props.repositories
+      repositories: this.props.repositories.map(r => this.parseRepositoryToUrl(r))
     }
     this.handleRepositoryChange = this.handleRepositoryChange.bind(this);
     this.handleAddRepository = this.handleAddRepository.bind(this);
     this.createRepositories = this.createRepositories.bind(this);
 
+  }
+
+  parseRepositoryToUrl(repository) {
+    if (repository.url) {
+      return repository.url;
+    }
+
+    let url = 'https://github.com/';
+    url += repository.repository;
+
+    if (repository.branch) {
+      url += `/${repository.branch}`;
+    }
+
+    if (repository.path) {
+      url += `/${repository.path}`;
+    }
+
+    return url;
   }
 
   /**
