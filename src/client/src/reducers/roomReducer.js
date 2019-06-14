@@ -11,6 +11,7 @@ let defaultState = {
     maxPlayer: 8,
     public: false,
     password: '',
+    geo: { code: 'eu', lat: '52.5192', lon: '13.4061' },
     hostPassword: '',
     adminPassword: '',
     token: '',
