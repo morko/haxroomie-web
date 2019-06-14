@@ -19,7 +19,7 @@ import JSONInput from 'react-json-editor-ajrm';
 import locale from 'react-json-editor-ajrm/locale/en';
 import AdvancedForm from './AdvancedForm';
 import './index.css';
-import RepositoryField from './RepositoryField';
+import Repositories from './Repositories';
 
 function FormTextRow(props) {
   let name = props.name;
@@ -300,10 +300,10 @@ export default class OpenRoomForm extends React.Component {
           above.
         </FormTextRow>
 
-        <RepositoryField
+        <Repositories
           handleRepositoryChange={this.handleRepositoryChange}
           repositories={this.state.repositories}>
-        </RepositoryField>
+        </Repositories>
 
 
         <FormGroup>
