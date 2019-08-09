@@ -61,9 +61,12 @@ function room(state = defaultState, action) {
       newState.openRoomError = action.payload.error.msg;
       return newState;
 
-    case 'CLOSE_ROOM':
+    case 'CLOSE_ROOM_STOP':
       clearErrors(newState);
       newState.roomInfo = null;
+      if (action.error) {
+        newState.closeRoomError = action.payload.error.msg;
+      }
       newState.openRoomInProcess = false;
       return newState;
     

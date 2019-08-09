@@ -23,7 +23,8 @@ class RoomEventHandler extends EventEmitter {
     this.onOpenRoomStart = this.onOpenRoomStart.bind(this);
     this.onOpenRoomStop = this.onOpenRoomStop.bind(this);
     this.onOpenRoomError = this.onOpenRoomError.bind(this);
-    this.onCloseRoom = this.onCloseRoom.bind(this);
+    this.onCloseRoomStart = this.onCloseRoomStart.bind(this);
+    this.onCloseRoomStop = this.onCloseRoomStop.bind(this);
     this.onPageError = this.onPageError.bind(this);
 
     this.addListeners(this.room);
@@ -38,7 +39,8 @@ class RoomEventHandler extends EventEmitter {
     room.on(`open-room-start`, this.onOpenRoomStart);
     room.on(`open-room-stop`, this.onOpenRoomStop);
     room.on(`open-room-error`, this.onOpenRoomError);
-    room.on(`close-room`, this.onCloseRoom);
+    room.on(`close-room-start`, this.onCloseRoomStart);
+    room.on(`close-room-stop`, this.onCloseRoomStop);
     room.on(`page-error`, this.onPageError);
   }
 
@@ -51,7 +53,8 @@ class RoomEventHandler extends EventEmitter {
     room.removeListener(`open-room-start`, this.onOpenRoomStart);
     room.removeListener(`open-room-stop`, this.onOpenRoomStop);
     room.removeListener(`open-room-error`, this.onOpenRoomError);
-    room.removeListener(`close-room`, this.onCloseRoom);
+    room.removeListener(`close-room-start`, this.onCloseRoomStart);
+    room.removeListener(`close-room-stop`, this.onCloseRoomStop);
     room.removeListener(`page-error`, this.onPageError);
   }
 
@@ -101,9 +104,17 @@ class RoomEventHandler extends EventEmitter {
     });
   }
 
-  onCloseRoom() {
+  onCloseRoomStart() {
     this.socket.emit(`server-action`, {
-      type: 'CLOSE_ROOM'
+      type: 'CLOSE_ROOM_START'
+    });
+  }
+
+  onCloseRoomStop(error) {
+    this.socket.emit(`server-action`, {
+      type: 'CLOSE_ROOM_STOP',
+      error: error ? true : undefined,
+      payload: error
     });
   }
 

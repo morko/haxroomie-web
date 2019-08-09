@@ -21,7 +21,7 @@ function createPassportMiddleware(database) {
   // Reading your user base ont he user.id
   passport.deserializeUser(function(id, done) {
     logger.debug("Deserializing user with id: " + id + " from session.");
-    User.findById(id).then(function(user) {
+    User.findByPk(id).then(function(user) {
       logger.debug(
         "Deserializing user with id: " + id + " to session " +
         "as user: " + JSON.stringify(user)

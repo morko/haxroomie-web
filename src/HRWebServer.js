@@ -118,7 +118,7 @@ module.exports = class Server {
 
     // find the user from the database
     let User = this.server.database.models.User;
-    let user = await User.findById(userID);
+    let user = await User.findByPk(userID);
     if (!user) {
       throw new Error('No user found for the session user ID: ' + userID);
     }

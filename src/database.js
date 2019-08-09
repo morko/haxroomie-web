@@ -14,7 +14,6 @@ function createDatabase(storage, opt) {
     {
       dialect: "sqlite",
       storage: storage,
-      operatorsAliases: false,
       logging: (msg) => logger.debug(msg)
     },
   );
@@ -54,7 +53,7 @@ function createDatabase(storage, opt) {
     if (!initialized) {
       throw new Error('Database is not initialized! Call init() first.');
     }
-    let userModel = await models.User.find({
+    let userModel = await models.User.findOne({
       where: { name: user.name }
     });
     if (throwIfExists && userModel) {
@@ -73,7 +72,7 @@ function createDatabase(storage, opt) {
     if (!initialized) {
       throw new Error('Database is not initialized! Call init() first.');
     }
-    let userModel = await models.User.find({
+    let userModel = await models.User.findOne({
       where: { name: user.name }
     });
     if (!user) {
@@ -87,7 +86,7 @@ function createDatabase(storage, opt) {
     if (!initialized) {
       throw new Error('Database is not initialized! Call init() first.');
     }
-    let userModel = await models.User.find({
+    let userModel = await models.User.findOne({
       where: { name: user.name }
     });
     if (!user) {
